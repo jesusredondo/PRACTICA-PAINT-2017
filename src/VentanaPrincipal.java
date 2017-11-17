@@ -50,6 +50,7 @@ public class VentanaPrincipal {
 	
 	//Paneles:
 	JPanel panelSuperior;
+	JPanel panelInferior;
 	
 	
 	//Variables para dibujo
@@ -177,6 +178,17 @@ public class VentanaPrincipal {
 		//***************************
 		//EL LIENZO DONDE PINTAMOS. 
 		//***************************	
+		panelInferior = new JPanel();
+		panelInferior.setBorder(BorderFactory.createLineBorder(Color.RED));
+		panelInferior.setLayout(new GridBagLayout());
+		settings = new GridBagConstraints();
+		settings.gridx = 0;
+		settings.gridy = 1;
+		settings.weightx = 1;
+		settings.weighty = 1;
+		settings.fill = GridBagConstraints.BOTH;
+		ventana.add(panelInferior, settings);
+		
 		
 		
 		lienzo = new JLabel();
@@ -184,11 +196,9 @@ public class VentanaPrincipal {
 		lienzo.setHorizontalAlignment(SwingConstants.CENTER);
 		settings = new GridBagConstraints();
 		settings.gridx = 0;
-		settings.gridy = 1;
-		settings.weightx = 1;
-		settings.weighty = 1;
+		settings.gridy = 0;
 		settings.fill = GridBagConstraints.BOTH;
-		ventana.add(lienzo, settings);
+		panelInferior.add(lienzo, settings);
 		ventana.repaint();
 		
 		
@@ -246,7 +256,7 @@ public class VentanaPrincipal {
 					default:
 						break;
 				}				
-
+				lienzo.repaint();
 			}			
 		});
 		
@@ -259,11 +269,11 @@ public class VentanaPrincipal {
 	 * El nuevo canvas se adapta al tamanio del lienzo.
 	 */
 	public void actualizarCanvasVacio(){
-		canvas = new BufferedImage(lienzo.getWidth(), lienzo.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		canvas = new BufferedImage(panelInferior.getWidth(), panelInferior.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		lienzo.setIcon(new ImageIcon(canvas));
 		Graphics graficos = canvas.getGraphics();
 		graficos.setColor(selector2.getColor());
-		graficos.fillRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
+		graficos.fillRect(0, 0, panelInferior.getWidth(), panelInferior.getHeight());
 		graficos.dispose();
 		lienzo.repaint();
 	}
