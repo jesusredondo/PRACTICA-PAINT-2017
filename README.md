@@ -19,11 +19,11 @@ Este repositorio contiene la base para la práctica PAINT de la asignatura de De
 
 5. Una vez solventado el error. Actualizaréis vuestro repositorio para que refleje los cambios que yo hice. [Esperad aquí].
 
-6. Cada grupo tendrá que decidir qué modificación desea hacer sobre el ejercicio base. Tendrá que defender qué dificultades tiene dicha modificación y luego exponer su funcionamiento ante los compañeros. El primer paso pues, será escribir un informe de mejora utilizando ISSUES. Los issues se escribirán sobre este repositorio jesusredondo/practicaPAINT2017.
+6. Cada grupo tendrá que decidir qué modificación desea hacer sobre el ejercicio base. Tendrá que defender qué dificultades tiene dicha modificación y luego exponer su funcionamiento ante los compañeros. El primer paso pues, será escribir un informe de mejora utilizando ISSUES. Los issues se escribirán sobre este repositorio [https://github.com/jesusredondo/PRACTICA-PAINT-2017/issues](https://github.com/jesusredondo/PRACTICA-PAINT-2017/issues).
 
 7. Por último cada grupo tendrá que codificar y documentar la mejora que ha expuesto.
 
-8. (OPCIONAL : Se puntuará sobre 3 puntos): Una vez el grupo haya terminado sus modificaciones, éstas tendrán que ser actualizadas a mi repositorio base (jesusredondo/practicaPAINT2017). Para realizar dichas modificaciones. Vosotros seréis los encargados de hacer un MERGE de vuestro repositorio con el mío y después hacer un PULL REQUEST (pedir que los cambios de vuestro repositorio se apliquen al mío).
+8. (OPCIONAL : Se puntuará sobre 3 puntos): Una vez el grupo haya terminado sus modificaciones, éstas tendrán que ser actualizadas a mi repositorio base ([https://github.com/jesusredondo/PRACTICA-PAINT-2017](https://github.com/jesusredondo/PRACTICA-PAINT-2017)). Para realizar dichas modificaciones. Vosotros seréis los encargados de hacer un MERGE de vuestro repositorio con el mío y después hacer un PULL REQUEST (pedir que los cambios de vuestro repositorio se apliquen al mío).
 No aceptaré PULL REQUESTS en los cuales yo tenga que hacer el MERGE.
 
 9. Se expondrá el trabajo realizado a los compañeros.
