@@ -4,7 +4,7 @@ Práctica PAINT
 Este repositorio contiene la base para la práctica PAINT de la asignatura de Desarrollo de Interfaces, curso 2017-2018.
 
 
-##Instrucciones:
+## Instrucciones:
 
 1. Esta práctica se llevará a cabo en grupos de 2-3 participantes. Es obligatorio utilizar el **cliente oficial de GITHUB**. Si se utilizan otro tipo de clientes, no os puedo echar una mano.	 
 
@@ -29,6 +29,6 @@ No aceptaré PULL REQUESTS en los cuales yo tenga que hacer el MERGE.
 9. Se expondrá el trabajo realizado a los compañeros.
 
 
-##Licencia
+## Licencia
 
 La licencia de este repositorio y todo su contenido es [GNU General Public License v.3.0](https://es.wikipedia.org/wiki/Licencia_p%C3%BAblica_general_de_GNU) 
