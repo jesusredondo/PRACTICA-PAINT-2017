@@ -35,6 +35,7 @@ public class VentanaPrincipal {
 	 */
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
+	final static int PINCELGEO = 2;
 
 	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 	// TODO: AÃ±adir la herramienta
@@ -60,6 +61,7 @@ public class VentanaPrincipal {
 	JButton botonNuevo;
 	JButton botonBoligrafo;
 	JButton botonGoma;
+	JButton botonPINCELGEO;
 
 	// VARIABLES PROPIAS DE CADA GRUPO:
 	// Grupo JesÃºs:
@@ -141,6 +143,13 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonGoma, settings);
 
+		//Herramienta pincel geom�trico.
+		botonPINCELGEO = new JButton(cargarIconoBoton("Imagenes/borrar.png"));
+		settings = new GridBagConstraints();
+		settings.gridx = 5;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(botonPINCELGEO, settings);
 		/**
 		 * VUESTRAS HERRAMIENTAS AQUÃ�
 		 */
@@ -222,7 +231,9 @@ public class VentanaPrincipal {
 				case GOMA:
 					borraGoma(e);
 					break;
-
+				case PINCELGEO:
+					//pintar figura.
+					break;
 				default:
 					break;
 				}
