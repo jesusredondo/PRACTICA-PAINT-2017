@@ -60,8 +60,7 @@ public class VentanaPrincipal {
 	JButton botonNuevo;
 	JButton botonBoligrafo;
 	JButton botonGoma;
-	JButton botonPincel_G1;
-	JButton botonCubo_G1;
+
 
 	// VARIABLES PROPIAS DE CADA GRUPO:
 	// Grupo JesÃºs:
@@ -74,7 +73,9 @@ public class VentanaPrincipal {
 	 * 
 	 */
 	// Boton para obtener el color en rgb. Grupo1
-		private JButton btnPicker_G1I;
+	JButton btnPicker_G1I;
+	JButton botonCubo_G1;
+		
 
 	// Constructor, marca el tamaÃ±o y el cierre del frame
 	public VentanaPrincipal() {
