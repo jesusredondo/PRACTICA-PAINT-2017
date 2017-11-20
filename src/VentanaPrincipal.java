@@ -385,7 +385,7 @@ public class VentanaPrincipal {
 		int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
 
 		poly = createPolygon(4, 360, new Rectangle(50,50));
-		graficos.setColor(Color.BLUE);
+		graficos.setColor(selector2.getColor());
 		graficos.drawPolygon(poly);
 		graficos.dispose();
 		lienzo.repaint();
