@@ -144,7 +144,7 @@ public class VentanaPrincipal {
 		panelSuperior.add(botonGoma, settings);
 
 
-		//Herramienta pincel geométrico.
+		//Herramienta pincel geomï¿½trico.
 		botonPINCELGEO = new JButton(cargarIconoBoton("Imagenes/iconoGeo.png"));
 
 		settings = new GridBagConstraints();
@@ -160,7 +160,7 @@ public class VentanaPrincipal {
 		// Un elemento que ocupe todo el espacio a la derecha:
 		JPanel panelEspacioDerecha = new JPanel();
 		settings = new GridBagConstraints();
-		settings.gridx = 5; /*** OJO ***/
+		settings.gridx = 6; /*** OJO ***/
 		settings.gridy = 0;
 		settings.weightx = 1;
 		panelSuperior.add(panelEspacioDerecha, settings);
