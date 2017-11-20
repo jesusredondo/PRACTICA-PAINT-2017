@@ -144,7 +144,7 @@ public class VentanaPrincipal {
 		panelSuperior.add(botonGoma, settings);
 
 		//Herramienta pincel geométrico.
-		botonPINCELGEO = new JButton(cargarIconoBoton("Imagenes/borrar.png"));
+		botonPINCELGEO = new JButton(cargarIconoBoton("Imagenes/iconoGeo.png"));
 		settings = new GridBagConstraints();
 		settings.gridx = 5;
 		settings.gridy = 0;
