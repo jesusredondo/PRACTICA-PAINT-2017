@@ -1,9 +1,12 @@
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -11,6 +14,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -24,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
@@ -34,8 +39,8 @@ public class VentanaPrincipal {
 	 */
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
-	final static int PINCEL=2;
-	final static int CUBO=3;
+	final static int PINCEL = 2;
+	final static int CUBO = 3;
 	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 	// TODO: AÃ±adir la herramienta
 
@@ -61,13 +66,12 @@ public class VentanaPrincipal {
 	JButton botonBoligrafo;
 	JButton botonGoma;
 
-
 	// VARIABLES PROPIAS DE CADA GRUPO:
 	// Grupo JesÃºs:
 	int xAnt = -1;
 	int yAnt = -1;
 	final int strokeGOMA = 10;
-	
+
 	/*
 	 * Variable Grupo 1
 	 * 
@@ -75,7 +79,6 @@ public class VentanaPrincipal {
 	// Boton para obtener el color en rgb. Grupo1
 	JButton btnPicker_G1I;
 	JButton botonCubo_G1;
-		
 
 	// Constructor, marca el tamaÃ±o y el cierre del frame
 	public VentanaPrincipal() {
@@ -156,10 +159,18 @@ public class VentanaPrincipal {
 		 */
 		// TODO: Insertar un botÃ³n e implementar mi herramienta.
 
+		// Boton Picker GRUPO1
+		settings = new GridBagConstraints();
+		settings.gridx = 6;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		btnPicker_G1I = new JButton("Picker");
+		panelSuperior.add(btnPicker_G1I, settings);
+
 		// Un elemento que ocupe todo el espacio a la derecha:
 		JPanel panelEspacioDerecha = new JPanel();
 		settings = new GridBagConstraints();
-		settings.gridx = 5; /*** OJO ***/
+		settings.gridx = 7; /*** OJO ***/
 		settings.gridy = 0;
 		settings.weightx = 1;
 		panelSuperior.add(panelEspacioDerecha, settings);
@@ -215,7 +226,8 @@ public class VentanaPrincipal {
 			}
 		});
 
-		// LÃ­stener de carga de VentanaPrincipal. Cuando se carga la pantalla es cuando
+		// LÃ­stener de carga de VentanaPrincipal. Cuando se carga la pantalla es
+		// cuando
 		// se puede inicializar el canvas.
 		ventana.addWindowListener(new WindowAdapter() {
 			@Override
@@ -265,7 +277,87 @@ public class VentanaPrincipal {
 				lienzo.repaint();
 			}
 		});
+		
+			
+		/**
+		 * Listened GRUPO 1
+		 */
+		
+		/**
+		 * M�todo que abre un frame y muesta el color del pixel en el que se cliquea(
+		 * _G1I)
+		 */
+		btnPicker_G1I.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ???? ***vistaPicker.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+				// Ventana Picker
+				JFrame vistaPicker_G1I = new JFrame("PICKER");
+				vistaPicker_G1I.setBounds(0, 0, 300, 200);
+				vistaPicker_G1I.setVisible(true);
+				vistaPicker_G1I.setLayout(new GridLayout(3, 1));
+				GridBagConstraints data_G1I;
+				// Panel de formato de colores
+				// Panel RGB
+				JPanel panelRGB_G1I = new JPanel();
+				panelRGB_G1I.setLayout(new GridLayout(1, 1));
+				panelRGB_G1I.setBorder(BorderFactory.createTitledBorder("RGB"));
+				// Edit text RGB
+				JTextField editRgb_G1I = new JTextField();
+				editRgb_G1I.setHorizontalAlignment(0);
+				panelRGB_G1I.add(editRgb_G1I);
+				// A�andir paneles de colores al frame picker
+				vistaPicker_G1I.add(panelRGB_G1I);
+				vistaPicker_G1I.repaint();
+				lienzo.addMouseListener(new MouseListener() {
+					@Override
+					public void mouseReleased(MouseEvent e) {
+					}
+
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// Obtener color del puntero
+						Robot robot_G1I;
+						try {
+							robot_G1I = new Robot();
+							Color color_G1I = robot_G1I.getPixelColor(e.getXOnScreen(), e.getYOnScreen());
+							// RGB
+							String colorRgb_G1I = color_G1I.toString();
+							// Formateo color
+							colorRgb_G1I = colorRgb_G1I.substring(colorRgb_G1I.indexOf("["), colorRgb_G1I.length());
+							// Mostar
+							editRgb_G1I.setText(colorRgb_G1I);
+
+							// HSB
+							float valor = 0.9f;
+							float saturacion_G1I = 1.0f;
+							float matriz = 0.8f;
+							Color colorHSB_G1I = color_G1I.getHSBColor(valor, saturacion_G1I, matriz);
+							System.out.println(colorHSB_G1I.toString());
+
+							// Excepciones
+						} catch (AWTException e1_G1I) {
+							System.out.println("Ocurri� un error");// e1_G1I.printStackTrace();
+						}
+						vistaPicker_G1I.repaint();
+					}
+
+					@Override
+					public void mouseExited(MouseEvent e) {
+					}
+
+					@Override
+					public void mouseEntered(MouseEvent e) {
+					}
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+					}
+				});
+
+			}
+		});// Fin del escuchador del bot�n de picker _G1I
 	}
 
 	/**
@@ -284,8 +376,8 @@ public class VentanaPrincipal {
 
 	/**
 	 * MÃ©todo que nos devuelve un icono para la barra de herramientas superior.
-	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que sea
-	 * cuadrada, para no estropear la interfaz.
+	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que
+	 * sea cuadrada, para no estropear la interfaz.
 	 * 
 	 * @param rutaImagen:
 	 *            La ruta de la imagen.
@@ -302,8 +394,8 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a la
-	 * que se pasa por parÃ¡metros
+	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a
+	 * la que se pasa por parÃ¡metros
 	 * 
 	 * @param herramienta
 	 * @return Un action listener que cambia la herramienta actual. Se puede
@@ -319,8 +411,8 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la ventana
-	 * correctamente.
+	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la
+	 * ventana correctamente.
 	 */
 	public void inicializar() {
 		ventana.setVisible(true);
