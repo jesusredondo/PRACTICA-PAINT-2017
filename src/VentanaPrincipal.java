@@ -91,6 +91,8 @@ public class VentanaPrincipal {
 	 * MÃ©todo que inicializa todos los componentes de la ventana
 	 */
 	public void inicializarComponentes() {
+		
+		
 
 		ventana.setLayout(new GridBagLayout());
 
@@ -164,7 +166,8 @@ public class VentanaPrincipal {
 		settings.gridx = 6;
 		settings.gridy = 0;
 		settings.insets = new Insets(0, 10, 0, 0);
-		btnPicker_G1I = new JButton("Picker");
+		btnPicker_G1I = new JButton("");
+		btnPicker_G1I.setIcon(cargarIconoBoton("Imagenes\\selector.png"));
 		panelSuperior.add(btnPicker_G1I, settings);
 
 		// Un elemento que ocupe todo el espacio a la derecha:
@@ -306,6 +309,7 @@ public class VentanaPrincipal {
 				// Edit text RGB
 				JTextField editRgb_G1I = new JTextField();
 				editRgb_G1I.setHorizontalAlignment(0);
+				editRgb_G1I.setEditable(false);
 				panelRGB_G1I.add(editRgb_G1I);
 				// A�andir paneles de colores al frame picker
 				vistaPicker_G1I.add(panelRGB_G1I);
