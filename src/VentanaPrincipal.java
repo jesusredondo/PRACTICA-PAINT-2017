@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +17,6 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -165,7 +165,6 @@ public class VentanaPrincipal {
 		settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelInferior, settings);
-
 		lienzo = new JLabel();
 		lienzo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		lienzo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -182,6 +181,27 @@ public class VentanaPrincipal {
 	 * MÃ©todo que inicializa todos los listeners del programa.
 	 */
 	public void inicializarListeners() {
+
+		// Cuando se reescale la ventana se actualiza el canvas por uno nuevo
+		ventana.addComponentListener(new ComponentListener() {
+
+			@Override
+			public void componentShown(ComponentEvent e) {
+			}
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				actualizarCanvasVacio();
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {
+			}
+
+			@Override
+			public void componentHidden(ComponentEvent e) {
+			}
+		});
 
 		// LÃ­stener de carga de VentanaPrincipal. Cuando se carga la pantalla es cuando
 		// se puede inicializar el canvas.
