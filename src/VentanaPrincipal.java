@@ -39,8 +39,10 @@ public class VentanaPrincipal {
 	 */
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
-	final static int PINCEL = 2;
-	final static int CUBO = 3;
+
+	final static int SELECTOR=2;
+	final static int CUBO=3;
+
 	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 	// TODO: AÃ±adir la herramienta
 
@@ -156,6 +158,17 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonGoma, settings);
 
+		// Herramienta cubo
+				botonCubo_G1= new JButton(cargarIconoBoton("Imagenes/cubo.jpg"));
+				settings = new GridBagConstraints();
+				settings.gridx = 5;
+				settings.gridy = 0;
+				settings.insets = new Insets(0, 10, 0, 0);
+				settings.fill = GridBagConstraints.BOTH;
+				panelSuperior.add(botonCubo_G1, settings);
+				
+			
+		
 		/**
 		 * VUESTRAS HERRAMIENTAS AQUÃ�
 		 */
@@ -251,6 +264,7 @@ public class VentanaPrincipal {
 		 */
 		botonBoligrafo.addActionListener(anadirListenerHerramienta(BOLIGRAFO));
 		botonGoma.addActionListener(anadirListenerHerramienta(GOMA));
+	 botonCubo_G1.addActionListener(anadirListenerHerramienta(CUBO));
 		// TODO: AÃ±adir nuevos listeners para las herramientas:
 
 		lienzo.addMouseListener(new MouseAdapter() {
@@ -274,6 +288,15 @@ public class VentanaPrincipal {
 					borraGoma(e);
 					break;
 
+				case SELECTOR:
+					
+					break;
+					
+				case CUBO:
+					Cubo(e);
+					break;
+					
+                
 				default:
 					break;
 				}
@@ -461,6 +484,11 @@ public class VentanaPrincipal {
 		graficos.setColor(selector2.getColor());
 		graficos.fillOval(e.getX() - (strokeGOMA / 2), e.getY() - (strokeGOMA / 2), strokeGOMA, strokeGOMA);
 		graficos.dispose();
+	}
+	//Metodo pintar Cubo
+	private void Cubo(MouseEvent e) {
+		
+		
 	}
 
 }
