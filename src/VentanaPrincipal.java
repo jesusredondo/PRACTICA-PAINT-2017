@@ -77,6 +77,10 @@ public class VentanaPrincipal {
 	
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 4cf56c0dd5b1f3b1691c98ae9075436d7343875b
 =======
 	
 >>>>>>> 4cf56c0dd5b1f3b1691c98ae9075436d7343875b
@@ -364,10 +368,15 @@ public class VentanaPrincipal {
 		graficos.drawLine(ratonX, ratonY, e.getX(), e.getY());
 		graficos.dispose();
 <<<<<<< HEAD
+<<<<<<< HEAD
 		xAnt = e.getX();
 		yAnt = e.getY();
 		
 		
+=======
+		ratonX = e.getX();
+		ratonY = e.getY();
+>>>>>>> 4cf56c0dd5b1f3b1691c98ae9075436d7343875b
 =======
 		ratonX = e.getX();
 		ratonY = e.getY();
