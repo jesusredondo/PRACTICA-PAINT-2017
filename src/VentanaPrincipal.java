@@ -42,8 +42,8 @@ public class VentanaPrincipal {
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
 
-	final static int SELECTOR=2;
-	final static int CUBO=3;
+	final static int SELECTOR = 2;
+	final static int CUBO = 3;
 
 	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 	// TODO: AÃ±adir la herramienta
@@ -159,16 +159,14 @@ public class VentanaPrincipal {
 		panelSuperior.add(botonGoma, settings);
 
 		// Herramienta cubo
-				botonCubo_G1= new JButton(cargarIconoBoton("Imagenes/cubo.jpg"));
-				settings = new GridBagConstraints();
-				settings.gridx = 5;
-				settings.gridy = 0;
-				settings.insets = new Insets(0, 10, 0, 0);
-				settings.fill = GridBagConstraints.BOTH;
-				panelSuperior.add(botonCubo_G1, settings);
-				
-			
-		
+		botonCubo_G1 = new JButton(cargarIconoBoton("Imagenes/cubo.jpg"));
+		settings = new GridBagConstraints();
+		settings.gridx = 5;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		settings.fill = GridBagConstraints.BOTH;
+		panelSuperior.add(botonCubo_G1, settings);
+
 		/**
 		 * VUESTRAS HERRAMIENTAS AQUÃ�
 		 */
@@ -179,7 +177,8 @@ public class VentanaPrincipal {
 		settings.gridx = 6;
 		settings.gridy = 0;
 		settings.insets = new Insets(0, 10, 0, 0);
-		btnPicker_G1I = new JButton("Picker");
+		btnPicker_G1I = new JButton("");
+		btnPicker_G1I.setIcon(cargarIconoBoton("Imagenes\\selector.png"));
 		panelSuperior.add(btnPicker_G1I, settings);
 
 		// Un elemento que ocupe todo el espacio a la derecha:
@@ -263,7 +262,9 @@ public class VentanaPrincipal {
 		 */
 		botonBoligrafo.addActionListener(anadirListenerHerramienta(BOLIGRAFO));
 		botonGoma.addActionListener(anadirListenerHerramienta(GOMA));
-	 botonCubo_G1.addActionListener(anadirListenerHerramienta(CUBO));
+		botonCubo_G1.addActionListener(anadirListenerHerramienta(CUBO));
+		btnPicker_G1I.addActionListener(anadirListenerHerramienta(SELECTOR));
+
 		// TODO: AÃ±adir nuevos listeners para las herramientas:
 
 		lienzo.addMouseListener(new MouseAdapter() {
@@ -288,30 +289,27 @@ public class VentanaPrincipal {
 					break;
 
 				case SELECTOR:
-					
+					listenedPicker();
 					break;
-					
+
 				case CUBO:
 					Cubo(e);
 					break;
-					
-                
+
 				default:
 					break;
 				}
 				lienzo.repaint();
 			}
 		});
-		
-			
-		/**
-		 * Listened GRUPO 1
-		 */
-		
-		/**
-		 * M�todo que abre un frame y muesta el color del pixel en el que se cliquea(
-		 * _G1I)
-		 */
+
+	}
+
+	/**
+	 * M�todo que abre un frame y muesta el color del pixel en el que se cliquea(_G1I)
+	 */
+	public void listenedPicker() {
+
 		btnPicker_G1I.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -331,6 +329,7 @@ public class VentanaPrincipal {
 				// Edit text RGB
 				JTextField editRgb_G1I = new JTextField();
 				editRgb_G1I.setHorizontalAlignment(0);
+				editRgb_G1I.setEditable(false);
 				panelRGB_G1I.add(editRgb_G1I);
 				// A�andir paneles de colores al frame picker
 				vistaPicker_G1I.add(panelRGB_G1I);
@@ -360,7 +359,7 @@ public class VentanaPrincipal {
 							float saturacion_G1I = 1.0f;
 							float matriz = 0.8f;
 							Color colorHSB_G1I = color_G1I.getHSBColor(valor, saturacion_G1I, matriz);
-							//System.out.println(colorHSB_G1I.toString());
+							// System.out.println(colorHSB_G1I.toString());
 
 							// Excepciones
 						} catch (AWTException e1_G1I) {
@@ -384,7 +383,7 @@ public class VentanaPrincipal {
 
 			}
 		});// Fin del escuchador del bot�n de picker _G1I
-	}
+	}// Listened bot�n de picker _G1I
 
 	/**
 	 * MÃ©todo que Borra el canvas para pintarlo completamente en Blanco. El nuevo
@@ -484,10 +483,10 @@ public class VentanaPrincipal {
 		graficos.fillOval(e.getX() - (strokeGOMA / 2), e.getY() - (strokeGOMA / 2), strokeGOMA, strokeGOMA);
 		graficos.dispose();
 	}
-	//Metodo pintar Cubo
+
+	// Metodo pintar Cubo
 	private void Cubo(MouseEvent e) {
-		
-		
+
 	}
 
 }
