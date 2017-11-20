@@ -34,6 +34,8 @@ public class VentanaPrincipal {
 	 */
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
+	final static int PINCEL=2;
+	final static int CUBO=3;
 	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 	// TODO: AÃ±adir la herramienta
 
@@ -59,11 +61,21 @@ public class VentanaPrincipal {
 	JButton botonBoligrafo;
 	JButton botonGoma;
 
+
 	// VARIABLES PROPIAS DE CADA GRUPO:
 	// Grupo JesÃºs:
 	int xAnt = -1;
 	int yAnt = -1;
 	final int strokeGOMA = 10;
+	
+	/*
+	 * Variable Grupo 1
+	 * 
+	 */
+	// Boton para obtener el color en rgb. Grupo1
+	JButton btnPicker_G1I;
+	JButton botonCubo_G1;
+		
 
 	// Constructor, marca el tamaÃ±o y el cierre del frame
 	public VentanaPrincipal() {
