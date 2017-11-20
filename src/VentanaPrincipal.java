@@ -68,6 +68,13 @@ public class VentanaPrincipal {
 	int xAnt = -1;
 	int yAnt = -1;
 	final int strokeGOMA = 10;
+	
+	/*
+	 * Variable Grupo 1
+	 * 
+	 */
+	// Boton para obtener el color en rgb. Grupo1
+		private JButton btnPicker_G1I;
 
 	// Constructor, marca el tamaÃ±o y el cierre del frame
 	public VentanaPrincipal() {
