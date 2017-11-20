@@ -32,6 +32,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import org.w3c.dom.css.RGBColor;
+
 public class VentanaPrincipal {
 
 	/**
@@ -345,6 +347,7 @@ public class VentanaPrincipal {
 						try {
 							robot_G1I = new Robot();
 							Color color_G1I = robot_G1I.getPixelColor(e.getXOnScreen(), e.getYOnScreen());
+							
 							// RGB
 							String colorRgb_G1I = color_G1I.toString();
 							// Formateo color
