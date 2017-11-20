@@ -34,6 +34,8 @@ public class VentanaPrincipal {
 	 */
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
+	final static int PINCEL=2;
+	final static int CUBO=3;
 	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 	// TODO: AÃ±adir la herramienta
 
@@ -58,6 +60,8 @@ public class VentanaPrincipal {
 	JButton botonNuevo;
 	JButton botonBoligrafo;
 	JButton botonGoma;
+	JButton botonPincel_G1;
+	JButton botonCubo_G1;
 
 	// VARIABLES PROPIAS DE CADA GRUPO:
 	// Grupo JesÃºs:
