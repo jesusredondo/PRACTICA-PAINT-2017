@@ -263,6 +263,7 @@ public class VentanaPrincipal {
 			}			
 		});
 		
+		//coge las posiciones de x e y del raton para usarlas al pintar la linea
 		lienzo.addMouseListener(new MouseAdapter() {
 			
 			@Override
