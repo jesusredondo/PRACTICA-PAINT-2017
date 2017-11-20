@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -383,7 +384,7 @@ public class VentanaPrincipal {
 		
 		int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
 
-		poly = new Polygon(xPoly, yPoly, xPoly.length);
+		poly = createPolygon(4, 360, new Rectangle(50,50));
 		graficos.setColor(Color.BLUE);
 		graficos.drawPolygon(poly);
 		graficos.dispose();
@@ -402,6 +403,21 @@ public class VentanaPrincipal {
 		graficos.fillOval(e.getX() - (strokeGOMA / 2), e.getY() - (strokeGOMA / 2), strokeGOMA, strokeGOMA);
 		graficos.dispose();
 	}
+	
+	public static Polygon createPolygon(int vertices, double angleOffset, Rectangle r) {
+        if (vertices < 1) throw new IllegalArgumentException ("Vertices must be > 0");
+        double step = 2 * Math.PI / vertices;
+        int[] x = new int[vertices];
+        int[] y = new int[vertices];
+        int xrad = r.width / 2;
+        int yrad = r.height / 2;
+        for (int i = 0; i < vertices; i++) {
+            x[i] = r.x + xrad + (int) (Math.cos(angleOffset + i * step) * xrad);
+            y[i] = r.y + yrad + (int) (Math.sin(angleOffset + i * step) * yrad);
+        }
+        Polygon p = new Polygon(x, y, vertices);
+        return p;
+    }
 	
 
 }
