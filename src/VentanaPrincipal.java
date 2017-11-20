@@ -3,12 +3,9 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
@@ -143,10 +140,8 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonGoma, settings);
 
-
-		//Herramienta pincel geom�trico.
+		// Herramienta pincel geom�trico.
 		botonPINCELGEO = new JButton(cargarIconoBoton("Imagenes/iconoGeo.png"));
-
 		settings = new GridBagConstraints();
 		settings.gridx = 5;
 		settings.gridy = 0;
@@ -160,7 +155,7 @@ public class VentanaPrincipal {
 		// Un elemento que ocupe todo el espacio a la derecha:
 		JPanel panelEspacioDerecha = new JPanel();
 		settings = new GridBagConstraints();
-		settings.gridx = 5; /*** OJO ***/
+		settings.gridx = 6; /*** OJO ***/
 		settings.gridy = 0;
 		settings.weightx = 1;
 		panelSuperior.add(panelEspacioDerecha, settings);
@@ -196,7 +191,8 @@ public class VentanaPrincipal {
 	 */
 	public void inicializarListeners() {
 
-		// LÃ­stener de carga de VentanaPrincipal. Cuando se carga la pantalla es cuando
+		// LÃ­stener de carga de VentanaPrincipal. Cuando se carga la pantalla es
+		// cuando
 		// se puede inicializar el canvas.
 		ventana.addWindowListener(new WindowAdapter() {
 			@Override
@@ -217,6 +213,7 @@ public class VentanaPrincipal {
 		 */
 		botonBoligrafo.addActionListener(anadirListenerHerramienta(BOLIGRAFO));
 		botonGoma.addActionListener(anadirListenerHerramienta(GOMA));
+		botonPINCELGEO.addActionListener(anadirListenerHerramienta(PINCELGEO));
 		// TODO: AÃ±adir nuevos listeners para las herramientas:
 
 		lienzo.addMouseMotionListener(new MouseMotionAdapter() {
@@ -234,7 +231,8 @@ public class VentanaPrincipal {
 					borraGoma(e);
 					break;
 				case PINCELGEO:
-					//pintar figura.
+					// pintar figura.
+					mouseDraggedPincelGeo(e);
 					break;
 				default:
 					break;
@@ -296,8 +294,8 @@ public class VentanaPrincipal {
 
 	/**
 	 * MÃ©todo que nos devuelve un icono para la barra de herramientas superior.
-	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que sea
-	 * cuadrada, para no estropear la interfaz.
+	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que
+	 * sea cuadrada, para no estropear la interfaz.
 	 * 
 	 * @param rutaImagen:
 	 *            La ruta de la imagen.
@@ -314,8 +312,8 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a la
-	 * que se pasa por parÃ¡metros
+	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a
+	 * la que se pasa por parÃ¡metros
 	 * 
 	 * @param herramienta
 	 * @return Un action listener que cambia la herramienta actual. Se puede
@@ -331,8 +329,8 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la ventana
-	 * correctamente.
+	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la
+	 * ventana correctamente.
 	 */
 	public void inicializar() {
 		ventana.setVisible(true);
@@ -367,6 +365,32 @@ public class VentanaPrincipal {
 		yAnt = e.getY();
 	}
 
+	private void mouseDraggedPincelGeo(MouseEvent e) {
+		if (xAnt == -1) {
+			xAnt = e.getX();
+		}
+		if (yAnt == -1) {
+			yAnt = e.getY();
+		}
+
+		Graphics graficos = canvas.getGraphics();
+		Polygon poly;
+
+//		int xPoly[] = { 150, 250, 325, 375, 450, 275, 100 };
+//		int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
+		
+		int xPoly[] = { 150, 250, 350, 450, 550, 275, 100 };
+		
+		int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
+
+		poly = new Polygon(xPoly, yPoly, xPoly.length);
+		graficos.setColor(Color.BLUE);
+		graficos.drawPolygon(poly);
+		graficos.dispose();
+		lienzo.repaint();
+
+	}
+
 	/**
 	 * Borra donde estÃ© el ratÃ³n.
 	 * 
@@ -378,5 +402,6 @@ public class VentanaPrincipal {
 		graficos.fillOval(e.getX() - (strokeGOMA / 2), e.getY() - (strokeGOMA / 2), strokeGOMA, strokeGOMA);
 		graficos.dispose();
 	}
+	
 
 }
