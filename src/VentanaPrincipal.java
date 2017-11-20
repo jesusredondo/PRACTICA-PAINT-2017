@@ -334,7 +334,7 @@ public class VentanaPrincipal {
 							float saturacion_G1I = 1.0f;
 							float matriz = 0.8f;
 							Color colorHSB_G1I = color_G1I.getHSBColor(valor, saturacion_G1I, matriz);
-							System.out.println(colorHSB_G1I.toString());
+							//System.out.println(colorHSB_G1I.toString());
 
 							// Excepciones
 						} catch (AWTException e1_G1I) {
