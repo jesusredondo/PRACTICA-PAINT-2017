@@ -25,15 +25,11 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-<<<<<<< HEAD
 import javax.xml.crypto.dsig.CanonicalizationMethod;
-=======
->>>>>>> ad196a1fb694acdf5a4ffd2ac2a921265968a7da
 
 
 public class VentanaPrincipal {
@@ -73,11 +69,7 @@ public class VentanaPrincipal {
 	JButton botonNuevo;
 	JButton botonBoligrafo;
 	JButton botonGoma;
-<<<<<<< HEAD
 	JButton blancoNegro;
-=======
-	JButton botonGuardar;
->>>>>>> ad196a1fb694acdf5a4ffd2ac2a921265968a7da
 	
 	
 	//VARIABLES PROPIAS DE CADA GRUPO:
@@ -178,18 +170,8 @@ public class VentanaPrincipal {
 		 * VUESTRAS HERRAMIENTAS AQUÃ�
 		 */
 		//TODO: Insertar un botÃ³n e implementar mi herramienta.
-<<<<<<< HEAD
 		
-=======
->>>>>>> ad196a1fb694acdf5a4ffd2ac2a921265968a7da
 		
-		//Herramienta guardar
-		botonGuardar = new JButton(cargarIconoBoton("Imagenes/privatephoto.jpg"));
-		settings = new GridBagConstraints();
-		settings.gridx = 5;
-		settings.gridy = 0;
-		settings.insets = new Insets(0, 10, 0, 0);
-		panelSuperior.add(botonGuardar,settings);
 		
 		
 		
@@ -274,28 +256,6 @@ public class VentanaPrincipal {
 		botonBoligrafo.addActionListener(anadirListenerHerramienta(BOLIGRAFO));
 		botonGoma.addActionListener(anadirListenerHerramienta(GOMA));
 		//TODO: AÃ±adir nuevos listeners para las herramientas:
-<<<<<<< HEAD
-=======
-		botonGuardar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser fc=new JFileChooser();
-			    int r=fc.showSaveDialog(null);
-			    if(r==JFileChooser.APPROVE_OPTION){;
-			     File archivo= new File(fc.getSelectedFile()+".png");
-			     try {
-			      ImageIO.write(canvas, "png", archivo);
-			     } catch (IOException e1) {
-			     
-			     }
-			    }
-			   }
-			   
-			  });
-				
-				
->>>>>>> ad196a1fb694acdf5a4ffd2ac2a921265968a7da
 		
 		
 		
@@ -394,7 +354,7 @@ public class VentanaPrincipal {
 	 *****************************************/
 	
 	
-	
+
 	
 	/**
 	 * Pinta la lÃ­nea del bolÃ­grafo al arrastrar.
@@ -417,9 +377,6 @@ public class VentanaPrincipal {
 		
 		
 	}
-	
-
-	
 	
 	
 	/**
