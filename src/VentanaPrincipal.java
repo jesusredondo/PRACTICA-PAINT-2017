@@ -235,7 +235,6 @@ public class VentanaPrincipal {
 					break;
 				case PINCELGEO:
 					// pintar figura.
-					lados = pideLados();
 					mouseDraggedPincelGeo(e);
 					break;
 				default:
@@ -260,6 +259,24 @@ public class VentanaPrincipal {
 			public void mousePressed(MouseEvent e) {
 				xAnt = e.getX();
 				yAnt = e.getY();
+
+				Graphics graficos = canvas.getGraphics();
+				Polygon poly;
+				//
+				// int xPoly[] = { 150, 250, 325, 375, 450, 275, 100 };
+				// int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
+				//
+				int xPoly[] = { 150, 250, 350, 450, 550, 275, 100 };
+
+				int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
+				Rectangle rectangulo = new Rectangle(e.getX()-25, e.getY()-25, 50, 50);
+				poly = createPolygon(lados, 50, rectangulo);
+				graficos.setColor(selector2.getColor());
+
+				graficos.drawPolygon(poly);
+				graficos.dispose();
+				lienzo.repaint();
+
 			}
 
 			@Override
@@ -329,7 +346,7 @@ public class VentanaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				herramientaActual = herramienta;
 				if (herramientaActual == 2) {
-
+					lados = pideLados();
 				}
 			}
 		};
@@ -387,23 +404,7 @@ public class VentanaPrincipal {
 			yAnt = e.getY();
 		}
 
-		Graphics graficos = canvas.getGraphics();
-		Polygon poly;
 
-		// int xPoly[] = { 150, 250, 325, 375, 450, 275, 100 };
-		// int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
-
-		int xPoly[] = { 150, 250, 350, 450, 550, 275, 100 };
-
-		int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
-
-		Rectangle rectangulo = new Rectangle(e.getX(), e.getY(), 50, 50);
-		poly = createPolygon(lados, 50, rectangulo);
-		graficos.setColor(selector2.getColor());
-
-		graficos.drawPolygon(poly);
-		graficos.dispose();
-		lienzo.repaint();
 
 	}
 
