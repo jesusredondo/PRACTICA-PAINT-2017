@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,16 +22,20 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 
 public class VentanaPrincipal {
 
 	/**
-	 * IMPORTANTE: CADA HERRAMIENTA TENDRÁ UN CÓDIGO ASOCIADO
+	 * IMPORTANTE: CADA HERRAMIENTA TENDRÃ� UN CÃ“DIGO ASOCIADO
 	 */
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
@@ -38,12 +43,11 @@ public class VentanaPrincipal {
 	// AÑADE AQUÍ TU HERRAMIENTA;
 	// TODO: Añadir la herramienta
 
-	// JOSE CARLOS
-
 	final static int DESHACER = 3;
 	final static int REHACER = 4;
+	final static int GUARDAR = 5;
 
-	// JOAQUIN
+
 
 	int herramientaActual = -1; // No hay nada por defecto.
 
@@ -66,6 +70,7 @@ public class VentanaPrincipal {
 	JButton botonNuevo;
 	JButton botonBoligrafo;
 	JButton botonGoma;
+
 	
 	JButton botonDeshacer;
 	JButton botonRehacer;
@@ -73,15 +78,20 @@ public class VentanaPrincipal {
 	BufferedImage canvasAnterior;
 	BufferedImage canvasPosterior;
 
+	JButton botonSave;
+
 	// VARIABLES PROPIAS DE CADA GRUPO:
-	// Grupo Jesús:
+
 	int xAnt = -1;
 	int yAnt = -1;
 	final int strokeGOMA = 10;
 
 	// Grupo 2
 
+
 	// Constructor, marca el tamaño y el cierre del frame
+	String rutaIncial = "\\home\\";
+
 	public VentanaPrincipal() {
 		ventana = new JFrame();
 		ventana.setBounds(100, 50, 800, 600);
@@ -89,7 +99,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que inicializa todos los componentes de la ventana
+	 * MÃ©todo que inicializa todos los componentes de la ventana
 	 */
 	public void inicializarComponentes() {
 
@@ -114,6 +124,7 @@ public class VentanaPrincipal {
 		ventana.add(panelSuperior, settings);
 
 		// Botón nuevo
+
 		botonNuevo = new JButton(cargarIconoBoton("Imagenes/nuevo.png"));
 		settings = new GridBagConstraints();
 		settings.gridx = 0;
@@ -140,6 +151,7 @@ public class VentanaPrincipal {
 		panelSuperior.add(selector2, settings);
 
 		// Herramienta de bolígrafo
+
 		botonBoligrafo = new JButton(cargarIconoBoton("Imagenes/boligrafo.png"));
 		settings = new GridBagConstraints();
 		settings.gridx = 3;
@@ -156,7 +168,7 @@ public class VentanaPrincipal {
 		panelSuperior.add(botonGoma, settings);
 
 		/**
-		 * VUESTRAS HERRAMIENTAS AQUÍ
+		 * VUESTRAS HERRAMIENTAS AQUÃ�
 		 */
 		// TODO: Insertar un botón e implementar mi herramienta.
 
@@ -179,6 +191,15 @@ public class VentanaPrincipal {
 		settings.gridy = 0;
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonRehacer, settings);
+
+		// TODO: Insertar un botÃ³n e implementar mi herramienta.
+		botonSave = new JButton(cargarIconoBoton("imagenes/guardar.png"));
+		settings = new GridBagConstraints();
+		settings.gridx = 8;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(botonSave, settings);
+
 
 		// Un elemento que ocupe todo el espacio a la derecha:
 		JPanel panelEspacioDerecha = new JPanel();
@@ -215,11 +236,12 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que inicializa todos los listeners del programa.
+	 * MÃ©todo que inicializa todos los listeners del programa.
 	 */
 	public void inicializarListeners() {
 
 		// Lístener de carga de VentanaPrincipal. Cuando se carga la pantalla es cuando
+
 		// se puede inicializar el canvas.
 		ventana.addWindowListener(new WindowAdapter() {
 			@Override
@@ -236,10 +258,11 @@ public class VentanaPrincipal {
 		});
 
 		/**
-		 * Cada nueva herramienta que añadas, tendrá un nuevo lístener:
+		 * Cada nueva herramienta que aÃ±adas, tendrÃ¡ un nuevo lÃ­stener:
 		 */
 		botonBoligrafo.addActionListener(anadirListenerHerramienta(BOLIGRAFO));
 		botonGoma.addActionListener(anadirListenerHerramienta(GOMA));
+
 		// TODO: Añadir nuevos listeners para las herramientas:
 
 		// Jose Carlos
@@ -286,8 +309,19 @@ public class VentanaPrincipal {
 
 		// Joaquin
 
+		// TODO: AÃ±adir nuevos listeners para las herramientas:
+		botonSave.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				guardar();
+			}
+
+		});
+
+
 		lienzo.addMouseMotionListener(new MouseMotionAdapter() {
-			
+
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				// Dependiendo de la herramienta...
@@ -298,10 +332,10 @@ public class VentanaPrincipal {
 					break;
 
 				case GOMA:
+
 					canvasAnterior = canvas;
 					borraGoma(e);
 					break;
-					
 				default:
 					break;
 				}
@@ -309,10 +343,18 @@ public class VentanaPrincipal {
 			}
 		});
 
+	
+		lienzo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				xAnt=e.getX();
+				yAnt=e.getY();
+			}
+		});
 	}
 
 	/**
-	 * Método que Borra el canvas para pintarlo completamente en Blanco. El nuevo
+	 * MÃ©todo que Borra el canvas para pintarlo completamente en Blanco. El nuevo
 	 * canvas se adapta al tamanio del lienzo.
 	 */
 	public void actualizarCanvasVacio() {
@@ -374,20 +416,18 @@ public class VentanaPrincipal {
 
 	/*****************************************
 	 *****************************************
-	 * AQUÍ VAN LOS MÉTODOS DE LOS LISTENERS:
+	 * AQUÃ� VAN LOS MÃ‰TODOS DE LOS LISTENERS:
 	 *****************************************
 	 *****************************************/
 	
 
 	/**
-	 * Pinta la línea del bolígrafo al arrastrar.
+	 * Pinta la línea del bolígrafo al arrastrarlo
 	 * 
 	 * @param e
 	 */
 	private void mouseDraggedBoligrafo(MouseEvent e) {
-		
-		
-		
+
 		if (xAnt == -1) {
 			xAnt = e.getX();
 		}
@@ -404,8 +444,8 @@ public class VentanaPrincipal {
 	}
 
 	/**
+
 	 * Borra donde esté el ratón.
-	 * 
 	 * @param e
 	 */
 	private void borraGoma(MouseEvent e) {
@@ -413,6 +453,45 @@ public class VentanaPrincipal {
 		graficos.setColor(selector2.getColor());
 		graficos.fillOval(e.getX() - (strokeGOMA / 2), e.getY() - (strokeGOMA / 2), strokeGOMA, strokeGOMA);
 		graficos.dispose();
+	}
+	
+	/**
+	 * Este metodo permite guardar el contenido del canvas a un archivo Para ello
+	 * abrirá un JfileChooser en el que el usuario elegirá donde desea guardar el
+	 * archivo y su nombre Si la ruta no tiene la extensión jpg png o gif se le
+	 * añadirá al final .png
+	 * 
+	 * @author Joaquin Alonso Perianez Grupo 2
+	 */
+	protected void guardar() {
+		JFileChooser explorador = new JFileChooser(rutaIncial);// para que salga en documentos
+		explorador.setSelectedFile(new File(rutaIncial));
+		explorador.setDialogTitle("Guardar imagen...");
+		explorador.setFileFilter(new FileNameExtensionFilter("JPG, PNG & GIF", "jpg", "png", "gif"));
+		int seleccion = explorador.showSaveDialog(ventana);// devuelve el boton pulsado
+		try {
+			if (seleccion == JFileChooser.APPROVE_OPTION) {// comprueba si ha presionado el boton de aceptar
+				File Seleccionada = explorador.getSelectedFile();
+				String ruta = Seleccionada.getAbsolutePath();// obtenemos el path del archivo a guardar
+				// comprobamos si a la hora de guardar obtuvo la extension y si no se la
+				// asignamos
+				if (!(ruta.endsWith(".png")) && !(ruta.endsWith(".jpg")) && !(ruta.endsWith(".gif"))) {
+					File temp = new File(ruta + ".png");
+					Seleccionada = temp;// renombramos el archivo
+				}
+				canvas.getGraphics();
+				// Escribimos la imagen en el archivo.
+				ImageIO.write(canvas, "png", Seleccionada);
+				JOptionPane.showMessageDialog(ventana, "Guardado", "Guardado exitoso!",
+						JOptionPane.INFORMATION_MESSAGE);
+				rutaIncial = Seleccionada.getAbsolutePath();
+
+			}
+		} catch (Exception ex) {// por alguna excepcion salta un mensaje de error
+			JOptionPane.showMessageDialog(ventana, "Error al guardar el archivo!", "Oops! Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+
 	}
 
 }
