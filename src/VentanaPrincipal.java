@@ -325,6 +325,9 @@ public class VentanaPrincipal {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				herramientaActual = herramienta;
+				if(herramientaActual==2) {
+					
+				}
 			}
 		};
 	}
