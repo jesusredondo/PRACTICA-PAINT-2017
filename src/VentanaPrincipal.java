@@ -15,6 +15,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -22,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
@@ -34,12 +36,13 @@ public class VentanaPrincipal {
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
 	final static int PINCELGEO = 2;
+	
 
 	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 	// TODO: AÃ±adir la herramienta
 
 	int herramientaActual = -1; // No hay nada por defecto.
-
+	int lados=0;
 	// La ventana principal, en este caso, guarda todos los componentes:
 	JFrame ventana;
 
@@ -233,6 +236,7 @@ public class VentanaPrincipal {
 					break;
 				case PINCELGEO:
 					// pintar figura.
+					lados=pideLados();
 					mouseDraggedPincelGeo(e);
 					break;
 				default:
@@ -365,7 +369,13 @@ public class VentanaPrincipal {
 		xAnt = e.getX();
 		yAnt = e.getY();
 	}
-
+	public static int pideLados() {
+		int lados=0;
+		lados=Integer.parseInt(JOptionPane.showInputDialog( "Introduzca numero de lados","Escriba aqui" ));
+		return lados;
+		
+	}
+	
 	private void mouseDraggedPincelGeo(MouseEvent e) {
 		if (xAnt == -1) {
 			xAnt = e.getX();
@@ -383,8 +393,9 @@ public class VentanaPrincipal {
 		int xPoly[] = { 150, 250, 350, 450, 550, 275, 100 };
 		
 		int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
-
-		poly = createPolygon(3, 50, new Rectangle(50,50));
+		
+		Rectangle rectangulo= new Rectangle(e.getX(), e.getY(), 50, 50);
+		poly = createPolygon(lados, 50, rectangulo);
 		graficos.setColor(Color.BLUE);
 		graficos.drawPolygon(poly);
 		graficos.dispose();
@@ -407,6 +418,7 @@ public class VentanaPrincipal {
 	public static Polygon createPolygon(int vertices, double angleOffset, Rectangle r) {
         if (vertices < 1) throw new IllegalArgumentException ("Vertices must be > 0");
         double step = 2 * Math.PI / vertices;
+      
         int[] x = new int[vertices];
         int[] y = new int[vertices];
         int xrad = r.width / 2;
