@@ -414,6 +414,7 @@ public class VentanaPrincipal {
 	 */
 	private void borraGoma(MouseEvent e) {
 		Graphics graficos = canvas.getGraphics();
+		selector2.setColor(Color.WHITE);
 		graficos.setColor(selector2.getColor());
 		graficos.fillOval(e.getX() - (strokeGOMA / 2), e.getY() - (strokeGOMA / 2), strokeGOMA, strokeGOMA);
 		graficos.dispose();
