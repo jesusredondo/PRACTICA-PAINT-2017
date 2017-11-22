@@ -281,7 +281,7 @@ public class VentanaPrincipal {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Deshazco");
+				
 				// canvas = canvasAnterior;
 				canvasAnterior = new BufferedImage(panelInferior.getWidth(), panelInferior.getHeight(), BufferedImage.TYPE_INT_ARGB);
 				lienzo.setIcon(new ImageIcon(canvasAnterior));
@@ -295,7 +295,7 @@ public class VentanaPrincipal {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Rehazco");
+				
 				
 				canvas = canvasPosterior;
 				canvasPosterior = new BufferedImage(panelInferior.getWidth(), panelInferior.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -399,7 +399,7 @@ public class VentanaPrincipal {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				herramientaActual = herramienta;
-				System.out.println(herramientaActual);
+				
 			}
 		};
 	}
