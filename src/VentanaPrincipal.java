@@ -36,13 +36,12 @@ public class VentanaPrincipal {
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
 	final static int PINCELGEO = 2;
-	
 
 	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 	// TODO: AÃ±adir la herramienta
 
 	int herramientaActual = -1; // No hay nada por defecto.
-	int lados=0;
+	int lados = 0;
 	// La ventana principal, en este caso, guarda todos los componentes:
 	JFrame ventana;
 
@@ -144,7 +143,7 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonGoma, settings);
 
-//Herramienta pincel geometrico
+		// Herramienta pincel geometrico
 		botonPINCELGEO = new JButton(cargarIconoBoton("Imagenes/iconoGeo.png"));
 		settings = new GridBagConstraints();
 		settings.gridx = 5;
@@ -236,7 +235,7 @@ public class VentanaPrincipal {
 					break;
 				case PINCELGEO:
 					// pintar figura.
-					lados=pideLados();
+					lados = pideLados();
 					mouseDraggedPincelGeo(e);
 					break;
 				default:
@@ -329,8 +328,8 @@ public class VentanaPrincipal {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				herramientaActual = herramienta;
-				if(herramientaActual==2) {
-					
+				if (herramientaActual == 2) {
+
 				}
 			}
 		};
@@ -372,13 +371,14 @@ public class VentanaPrincipal {
 		xAnt = e.getX();
 		yAnt = e.getY();
 	}
+
 	public static int pideLados() {
-		int lados=0;
-		lados=Integer.parseInt(JOptionPane.showInputDialog( "Introduzca numero de lados","Escriba aqui" ));
+		int lados = 0;
+		lados = Integer.parseInt(JOptionPane.showInputDialog("Introduzca numero de lados", "Escriba aqui"));
 		return lados;
-		
+
 	}
-	
+
 	private void mouseDraggedPincelGeo(MouseEvent e) {
 		if (xAnt == -1) {
 			xAnt = e.getX();
@@ -390,24 +390,17 @@ public class VentanaPrincipal {
 		Graphics graficos = canvas.getGraphics();
 		Polygon poly;
 
-//		int xPoly[] = { 150, 250, 325, 375, 450, 275, 100 };
-//		int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
-		
+		// int xPoly[] = { 150, 250, 325, 375, 450, 275, 100 };
+		// int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
+
 		int xPoly[] = { 150, 250, 350, 450, 550, 275, 100 };
-		
+
 		int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
-<<<<<<< HEAD
-		
-		Rectangle rectangulo= new Rectangle(e.getX(), e.getY(), 50, 50);
+
+		Rectangle rectangulo = new Rectangle(e.getX(), e.getY(), 50, 50);
 		poly = createPolygon(lados, 50, rectangulo);
-		graficos.setColor(Color.BLUE);
-=======
-
-
-		poly = createPolygon(4, 360, new Rectangle(50,50));
 		graficos.setColor(selector2.getColor());
 
->>>>>>> 3785f2843cff0d3164e9bb40cf794e537ac2093b
 		graficos.drawPolygon(poly);
 		graficos.dispose();
 		lienzo.repaint();
@@ -425,22 +418,22 @@ public class VentanaPrincipal {
 		graficos.fillOval(e.getX() - (strokeGOMA / 2), e.getY() - (strokeGOMA / 2), strokeGOMA, strokeGOMA);
 		graficos.dispose();
 	}
-	
+
 	public static Polygon createPolygon(int vertices, double angleOffset, Rectangle r) {
-        if (vertices < 1) throw new IllegalArgumentException ("Vertices must be > 0");
-        double step = 2 * Math.PI / vertices;
-      
-        int[] x = new int[vertices];
-        int[] y = new int[vertices];
-        int xrad = r.width / 2;
-        int yrad = r.height / 2;
-        for (int i = 0; i < vertices; i++) {
-            x[i] = r.x + xrad + (int) (Math.cos(angleOffset + i * step) * xrad);
-            y[i] = r.y + yrad + (int) (Math.sin(angleOffset + i * step) * yrad);
-        }
-        Polygon p = new Polygon(x, y, vertices);
-        return p;
-    }
-	
+		if (vertices < 1)
+			throw new IllegalArgumentException("Vertices must be > 0");
+		double step = 2 * Math.PI / vertices;
+
+		int[] x = new int[vertices];
+		int[] y = new int[vertices];
+		int xrad = r.width / 2;
+		int yrad = r.height / 2;
+		for (int i = 0; i < vertices; i++) {
+			x[i] = r.x + xrad + (int) (Math.cos(angleOffset + i * step) * xrad);
+			y[i] = r.y + yrad + (int) (Math.sin(angleOffset + i * step) * yrad);
+		}
+		Polygon p = new Polygon(x, y, vertices);
+		return p;
+	}
 
 }
