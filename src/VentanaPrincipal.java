@@ -300,14 +300,10 @@ public class VentanaPrincipal {
 				editRgb_G1I.setHorizontalAlignment(0);
 				editRgb_G1I.setEditable(false);
 				panelRGB_G1I.add(editRgb_G1I);
-				// Añandir paneles de colores al frame picker
+				// Aï¿½andir paneles de colores al frame picker
 				vistaPicker_G1I.add(panelRGB_G1I);
 				vistaPicker_G1I.repaint();
-				lienzo.addMouseListener(new MouseListener() {
-					@Override
-					public void mouseReleased(MouseEvent e) {
-					}
-
+				lienzo.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mousePressed(MouseEvent e) {
 						// Obtener color del puntero
@@ -332,36 +328,37 @@ public class VentanaPrincipal {
 
 							// Excepciones
 						} catch (AWTException e1_G1I) {
-							System.out.println("Ocurrió un error");// e1_G1I.printStackTrace();
+							System.out.println("Ocurriï¿½ un error");// e1_G1I.printStackTrace();
 						}
 						vistaPicker_G1I.repaint();
 					}
-
-					@Override
-					public void mouseExited(MouseEvent e) {
-					}
-
-					@Override
-					public void mouseEntered(MouseEvent e) {
-					}
-
-					@Override
-					public void mouseClicked(MouseEvent e) {
-					}
 				});
-
-			}// Fin del escuchador del botón de picker _G1I
-		});// Listened botón de picker _G1I
+			}// Fin del escuchador del botï¿½n de picker _G1I
+		});// Listened botï¿½n de picker _G1I
 
 		/**
 		 * Escuchador que crea un array de los pixeles del lienzo y colorea del color
 		 * seleccionado los pixeles del mismo color
 		 */
 		botonCubo_G1.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Escibir aqui
+		lienzo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Robot robot_G1I;
+				try {
+					robot_G1I = new Robot();
+					Color color_G1I = robot_G1I.getPixelColor(e.getXOnScreen(), e.getYOnScreen());
+					
+					// RGB
+					String colorRgb_G1I = color_G1I.toString();
+					
+				} catch (AWTException e1_G1I) {
+					System.out.println("Ocurriï¿½ un error");// e1_G1I.printStackTrace();
+				}
+			}
+		});
 
 			}
 		});// Fin del escuchador del boton de cubo
