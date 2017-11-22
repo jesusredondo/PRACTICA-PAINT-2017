@@ -77,12 +77,14 @@ public class VentanaPrincipal {
 	final int strokeGOMA = 10;
 
 	/*
-	 * Variable Grupo 1
+	 * Variables Grupo 1
 	 * 
 	 */
 	// Boton para obtener el color en rgb. Grupo1
 	JButton btnPicker_G1I;
 	JButton botonCubo_G1;
+	Color colorBtnPicker_G1 = Color.WHITE;
+	//Fin variables grupo1
 
 	// Constructor, marca el tamaÃ±o y el cierre del frame
 	public VentanaPrincipal() {
@@ -179,6 +181,7 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		btnPicker_G1I = new JButton("");
 		btnPicker_G1I.setIcon(cargarIconoBoton("Imagenes\\selector.png"));
+		btnPicker_G1I.setBackground(colorBtnPicker_G1);
 		panelSuperior.add(btnPicker_G1I, settings);
 
 		// Un elemento que ocupe todo el espacio a la derecha:
