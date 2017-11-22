@@ -79,12 +79,13 @@ public class VentanaPrincipal {
 	final int strokeGOMA = 10;
 
 	/*
-	 * Variable Grupo 1
+	 * Variables Grupo 1
 	 * 
 	 */
 	// Boton para obtener el color en rgb. Grupo1
 	JButton btnPicker_G1I;
 	JButton botonCubo_G1;
+	//Fin variables grupo1
 
 	// Constructor, marca el tamaÃ±o y el cierre del frame
 	public VentanaPrincipal() {
@@ -160,6 +161,12 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonGoma, settings);
 
+	
+
+		/**
+		 * VUESTRAS HERRAMIENTAS AQUÃ�
+		 */
+		// TODO: Insertar un botÃ³n e implementar mi herramienta.
 		// Herramienta cubo
 		botonCubo_G1 = new JButton(cargarIconoBoton("Imagenes/cubo.jpg"));
 		settings = new GridBagConstraints();
@@ -168,12 +175,7 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		settings.fill = GridBagConstraints.BOTH;
 		panelSuperior.add(botonCubo_G1, settings);
-
-		/**
-		 * VUESTRAS HERRAMIENTAS AQUÃ�
-		 */
-		// TODO: Insertar un botÃ³n e implementar mi herramienta.
-
+		
 		// Boton Picker GRUPO1
 		settings = new GridBagConstraints();
 		settings.gridx = 6;
@@ -328,6 +330,8 @@ public class VentanaPrincipal {
 							Color colorHSB_G1I = color_G1I.getHSBColor(valor, saturacion_G1I, matriz);
 							// System.out.println(colorHSB_G1I.toString());
 
+							//Cambiar color del boton de picker
+							btnPicker_G1I.setBackground(color_G1I);
 							// Excepciones
 						} catch (AWTException e1_G1I) {
 							System.out.println("Ocurri� un error");// e1_G1I.printStackTrace();
