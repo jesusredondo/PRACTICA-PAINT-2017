@@ -42,6 +42,8 @@ public class VentanaPrincipal {
 
 	int herramientaActual = -1; // No hay nada por defecto.
 	int lados = 0;
+	int ancho=50;
+	int alto=50;
 	// La ventana principal, en este caso, guarda todos los componentes:
 	JFrame ventana;
 
@@ -269,9 +271,9 @@ public class VentanaPrincipal {
 				int xPoly[] = { 150, 250, 350, 450, 550, 275, 100 };
 
 				int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
-				Rectangle rectangulo = new Rectangle(e.getX()-25, e.getY()-25, 50, 50);
+				Rectangle rectangulo = new Rectangle(e.getX()-25, e.getY()-25, ancho, alto);
 				poly = createPolygon(lados, 50, rectangulo);
-				graficos.setColor(selector2.getColor());
+				graficos.setColor(selector1.getColor());
 
 				graficos.drawPolygon(poly);
 				graficos.dispose();
@@ -347,6 +349,8 @@ public class VentanaPrincipal {
 				herramientaActual = herramienta;
 				if (herramientaActual == 2) {
 					lados = pideLados();
+					ancho=pideAncho();
+					alto=pideAlto();
 				}
 			}
 		};
@@ -394,6 +398,16 @@ public class VentanaPrincipal {
 		lados = Integer.parseInt(JOptionPane.showInputDialog("Introduzca numero de lados", "Escriba aqui"));
 		return lados;
 
+	}
+	public static int pideAncho() {
+		int ancho = 50;
+		ancho = Integer.parseInt(JOptionPane.showInputDialog("Introduzca Ancho de su figura", "Escriba aqui"));
+		return ancho;
+	}
+	public static int pideAlto() {
+		int alto = 50;
+		alto = Integer.parseInt(JOptionPane.showInputDialog("Introduzca Alto de su figura", "Escriba aqui"));
+		return alto;
 	}
 
 	private void mouseDraggedPincelGeo(MouseEvent e) {
