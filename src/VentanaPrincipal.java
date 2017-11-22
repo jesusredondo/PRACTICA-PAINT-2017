@@ -19,14 +19,18 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
 public class VentanaPrincipal {
 
@@ -38,10 +42,28 @@ public class VentanaPrincipal {
 	// AÑADE AQUÍ TU HERRAMIENTA;
 	// TODO: Añadir la herramienta
 
+	JTextField txt, tam;
+	JLabel texto, tamaño, tipoLetra;
+
+	JPanel panelSuperiorVentanaTexto, panelInferiorVentanaTexto;
+
+	JRadioButton[] fuentes = new JRadioButton[3];
+	JRadioButton[] estilo = new JRadioButton[3];
+
+	String[] nombresFuentes = { "Arial", "Times new Roman", "Calibri" };
+	String[] nombresEstilo = { "Negrita", "Cursiva", "ambas" };
+
+	ButtonGroup grupoFuente = new ButtonGroup();
+	ButtonGroup grupoEstilo = new ButtonGroup();
+	JButton botonColor, botonAceptar;
+
 	int herramientaActual = -1; // No hay nada por defecto.
 
 	// La ventana principal, en este caso, guarda todos los componentes:
 	JFrame ventana;
+
+	// Una ventana para seleccionar el texto a introducir.
+	JFrame ventanaTexto;
 
 	// Paneles:
 	JPanel panelSuperior;
@@ -60,11 +82,13 @@ public class VentanaPrincipal {
 	JButton botonBoligrafo;
 	JButton botonGoma;
 
+	JButton botonTexto;
+
 	// VARIABLES PROPIAS DE CADA GRUPO:
 	// Grupo Jesús:
 	int xAnt = -1;
 	int yAnt = -1;
-	
+
 	final int strokeGOMA = 10;
 
 	// Constructor, marca el tamaño y el cierre del frame
@@ -145,6 +169,12 @@ public class VentanaPrincipal {
 		 * VUESTRAS HERRAMIENTAS AQUÍ
 		 */
 		// TODO: Insertar un botón e implementar mi herramienta.
+		botonTexto = new JButton("Texto");
+		settings = new GridBagConstraints();
+		settings.gridx = 5;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(botonTexto, settings);
 
 		// Un elemento que ocupe todo el espacio a la derecha:
 		JPanel panelEspacioDerecha = new JPanel();
@@ -228,14 +258,111 @@ public class VentanaPrincipal {
 				lienzo.repaint();
 			}
 		});
-		
+
 		lienzo.addMouseListener(new MouseAdapter() {
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
-				xAnt=e.getX();
-				yAnt=e.getY();
-				
+				xAnt = e.getX();
+				yAnt = e.getY();
+
+			}
+		});
+
+		botonTexto.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Crea la interfaz
+				inicializarComponentesVentanaTexto();
+
+			}
+
+			private void inicializarComponentesVentanaTexto() {
+
+				// Los componentes que vamos a usar.
+				ventanaTexto = new JFrame("Selecciona Texto");
+
+				ventanaTexto.setBounds(100, 50, 700, 500);
+				ventanaTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				ventanaTexto.setVisible(true);
+				ventanaTexto.setLayout(new GridBagLayout());
+
+				panelSuperiorVentanaTexto = new JPanel(new GridBagLayout());
+				GridBagConstraints settings = new GridBagConstraints();
+				settings.gridx = 0;
+				settings.gridy = 0;
+				settings.ipadx = 93;
+				ventanaTexto.add(panelSuperiorVentanaTexto, settings);
+
+				panelInferiorVentanaTexto = new JPanel(new GridBagLayout());
+				settings = new GridBagConstraints();
+				settings.gridx = 0;
+				settings.gridy = 1;
+				ventanaTexto.add(panelInferiorVentanaTexto, settings);
+
+				texto = new JLabel("Introduce el texto:");
+				settings = new GridBagConstraints();
+				settings.gridx = 0;
+				settings.gridy = 0;
+
+				panelSuperiorVentanaTexto.add(texto, settings);
+
+				txt = new JTextField();
+				settings = new GridBagConstraints();
+				settings.gridx = 0;
+				settings.gridy = 1;
+				settings.weightx = 2;
+				settings.fill = GridBagConstraints.BOTH;
+				panelSuperiorVentanaTexto.add(txt, settings);
+
+				tamaño = new JLabel("Tamaño");
+				settings = new GridBagConstraints();
+				settings.gridx = 0;
+				settings.gridy = 0;
+				panelInferiorVentanaTexto.add(tamaño, settings);
+
+				tam = new JTextField();
+				settings = new GridBagConstraints();
+				settings.gridx = 0;
+				settings.gridy = 1;
+				settings.fill = GridBagConstraints.BOTH;
+				panelInferiorVentanaTexto.add(tam, settings);
+
+				botonColor = new JButton("Color");
+				settings = new GridBagConstraints();
+				settings.gridx = 1;
+				settings.gridy = 1;
+				panelInferiorVentanaTexto.add(botonColor, settings);
+
+				for (int i = 0; i < fuentes.length; i++) {
+					fuentes[i] = new JRadioButton(nombresFuentes[i]);
+					settings = new GridBagConstraints();
+					settings.gridx = 0;
+					settings.gridy = (i + 2);
+					settings.anchor = GridBagConstraints.WEST;
+					grupoFuente.add(fuentes[i]);
+					panelInferiorVentanaTexto.add(fuentes[i], settings);
+
+				}
+
+				for (int i = 0; i < estilo.length; i++) {
+					estilo[i] = new JRadioButton(nombresEstilo[i]);
+					settings = new GridBagConstraints();
+					settings.gridx = 1;
+					settings.gridy = (i + 2);
+					grupoEstilo.add(estilo[i]);
+					panelInferiorVentanaTexto.add(estilo[i], settings);
+
+				}
+
+				botonAceptar = new JButton("Aceptar");
+				settings = new GridBagConstraints();
+				settings.gridx = 0;
+				settings.gridy = 5;
+				settings.anchor=GridBagConstraints.WEST;
+				panelInferiorVentanaTexto.add(botonAceptar, settings);
+
 			}
 		});
 
@@ -315,7 +442,7 @@ public class VentanaPrincipal {
 	private void mouseDraggedBoligrafo(MouseEvent e) {
 		Graphics graficos = canvas.getGraphics();
 		graficos.setColor(Color.BLACK);
-		//graficos.setColor(selector1.getColor());
+		// graficos.setColor(selector1.getColor());
 		graficos.drawLine(xAnt, yAnt, e.getX(), e.getY());
 		graficos.dispose();
 		lienzo.repaint();
