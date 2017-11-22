@@ -261,7 +261,6 @@ public class VentanaPrincipal {
 		botonBoligrafo.addActionListener(anadirListenerHerramienta(BOLIGRAFO));
 		botonGoma.addActionListener(anadirListenerHerramienta(GOMA));
 		botonCubo_G1.addActionListener(anadirListenerHerramienta(CUBO));
-		btnPicker_G1I.addActionListener(anadirListenerHerramienta(SELECTOR));
 
 		// TODO: AÃƒÂ±adir nuevos listeners para las herramientas:
 
@@ -272,53 +271,23 @@ public class VentanaPrincipal {
 				yAnt = e.getY();
 			}
 		});
-		lienzo.addMouseMotionListener(new MouseMotionAdapter() {
 
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				// Dependiendo de la herramienta...
-				switch (herramientaActual) {
-				case BOLIGRAFO:
-					mouseDraggedBoligrafo(e);
-					break;
-
-				case GOMA:
-					borraGoma(e);
-					break;
-
-				case SELECTOR:
-					listenedPicker();
-					break;
-
-				case CUBO:
-					Cubo(e);
-					break;
-
-				default:
-					break;
-				}
-				lienzo.repaint();
-			}
-		});
-
-	}
-
-	/**
-	 * Método que abre un frame y muesta el color del pixel en el que se cliquea(_G1I)
-	 */
-	public void listenedPicker() {
+		// *********
+		// Grupo 1 Escuchadores
+		// *************
+		/*
+		 * Escuchador que abre un frame y muesta el color del pixel en el que se
+		 * cliquea(_G1I)
+		 */
 
 		btnPicker_G1I.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// ???? ***vistaPicker.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 				// Ventana Picker
 				JFrame vistaPicker_G1I = new JFrame("PICKER");
 				vistaPicker_G1I.setBounds(0, 0, 300, 200);
 				vistaPicker_G1I.setVisible(true);
 				vistaPicker_G1I.setLayout(new GridLayout(3, 1));
-				GridBagConstraints data_G1I;
 				// Panel de formato de colores
 				// Panel RGB
 				JPanel panelRGB_G1I = new JPanel();
@@ -378,9 +347,53 @@ public class VentanaPrincipal {
 					}
 				});
 
+			}// Fin del escuchador del botón de picker _G1I
+		});// Listened botón de picker _G1I
+
+		/**
+		 * Escuchador que crea un array de los pixeles del lienzo y colorea del color
+		 * seleccionado los pixeles del mismo color
+		 */
+		botonCubo_G1.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Escibir aqui
+
 			}
-		});// Fin del escuchador del botón de picker _G1I
-	}// Listened botón de picker _G1I
+		});// Fin del escuchador del boton de cubo
+
+		// Fin escuchadores Grupo 1
+
+		lienzo.addMouseMotionListener(new MouseMotionAdapter() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// Dependiendo de la herramienta...
+				switch (herramientaActual) {
+				case BOLIGRAFO:
+					mouseDraggedBoligrafo(e);
+					break;
+
+				case GOMA:
+					borraGoma(e);
+					break;
+
+				case SELECTOR:
+					break;
+
+				case CUBO:
+					Cubo(e);
+					break;
+
+				default:
+					break;
+				}
+				lienzo.repaint();
+			}
+		});
+
+	}
 
 	/**
 	 * MÃƒÂ©todo que Borra el canvas para pintarlo completamente en Blanco. El nuevo
