@@ -25,12 +25,14 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import java.awt.image.DataBufferByte;
 
 import org.w3c.dom.css.RGBColor;
 
@@ -311,7 +313,7 @@ public class VentanaPrincipal {
 						try {
 							robot_G1I = new Robot();
 							Color color_G1I = robot_G1I.getPixelColor(e.getXOnScreen(), e.getYOnScreen());
-							
+
 							// RGB
 							String colorRgb_G1I = color_G1I.toString();
 							// Formateo color
@@ -343,23 +345,29 @@ public class VentanaPrincipal {
 		botonCubo_G1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		lienzo.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				Robot robot_G1I;
-				try {
-					robot_G1I = new Robot();
-					Color color_G1I = robot_G1I.getPixelColor(e.getXOnScreen(), e.getYOnScreen());
-					
-					// RGB
-					String colorRgb_G1I = color_G1I.toString();
-					
-				} catch (AWTException e1_G1I) {
-					System.out.println("Ocurri� un error");// e1_G1I.printStackTrace();
-				}
-			}
-		});
-
+				lienzo.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mousePressed(MouseEvent e) {
+						Robot robot_G1I;
+						try {
+							robot_G1I = new Robot();
+							Color color_G1I = robot_G1I.getPixelColor(e.getX(), e.getY());
+							// Cambiamos el color de los pixeles que tengan el mismo color que el pixel
+							// seleccionado
+							for (int i = Integer.max(0, (e.getX() - 1)); i <= Integer.min(lienzo.getWidth() - 1,
+									(e.getX() + 1)); i++) {
+								for (int j = Integer.max(0, (e.getY() - 1)); j <= Integer.min(lienzo.getHeight() - 1,
+										(e.getY() + 1)); j++) {
+									if (robot_G1I.getPixelColor(i, j) == color_G1I) {
+										// = JColorChooser.showDialog(ventana, "Elige el color", color_G1I);
+									}
+								}
+							}
+						} catch (AWTException e1_G1I) {
+							System.out.println("Ocurri� un error");// e1_G1I.botonCubo_G1();
+						}
+					}
+				});
 			}
 		});// Fin del escuchador del boton de cubo
 
@@ -411,8 +419,8 @@ public class VentanaPrincipal {
 
 	/**
 	 * MÃ©todo que nos devuelve un icono para la barra de herramientas superior.
-	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que
-	 * sea cuadrada, para no estropear la interfaz.
+	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que sea
+	 * cuadrada, para no estropear la interfaz.
 	 * 
 	 * @param rutaImagen:
 	 *            La ruta de la imagen.
@@ -429,8 +437,8 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a
-	 * la que se pasa por parÃ¡metros
+	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a la
+	 * que se pasa por parÃ¡metros
 	 * 
 	 * @param herramienta
 	 * @return Un action listener que cambia la herramienta actual. Se puede
@@ -446,8 +454,8 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la
-	 * ventana correctamente.
+	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la ventana
+	 * correctamente.
 	 */
 	public void inicializar() {
 		ventana.setVisible(true);
