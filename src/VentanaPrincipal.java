@@ -389,9 +389,9 @@ public class VentanaPrincipal {
 		yAnt = e.getY();
 	}
 
-	public static int pideLados() {
+	public int pideLados() {
 		int lados = 0;
-		lados = Integer.parseInt(JOptionPane.showInputDialog("Introduzca numero de lados", "Escriba aqui"));
+		lados = Integer.parseInt(JOptionPane.showInputDialog(ventana,"Introduzca numero de lados", "Escriba aqui"));
 		return lados;
 
 	}
