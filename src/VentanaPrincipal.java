@@ -42,8 +42,8 @@ public class VentanaPrincipal {
 
 	int herramientaActual = -1; // No hay nada por defecto.
 	int lados = 0;
-	int ancho=50;
-	int alto=50;
+	int ancho = 0;
+	int alto = 0;
 	// La ventana principal, en este caso, guarda todos los componentes:
 	JFrame ventana;
 
@@ -195,6 +195,16 @@ public class VentanaPrincipal {
 	 * MÃƒÂ©todo que inicializa todos los listeners del programa.
 	 */
 	public void inicializarListeners() {
+		botonPINCELGEO.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				lados = pideLados();
+				ancho = pideAncho();
+				alto = pideAlto();
+
+			}
+		});
 
 		// LÃƒÂ­stener de carga de VentanaPrincipal. Cuando se carga la pantalla es
 		// cuando
@@ -229,9 +239,7 @@ public class VentanaPrincipal {
 				switch (herramientaActual) {
 				case BOLIGRAFO:
 					mouseDraggedBoligrafo(e);
-
 					break;
-
 				case GOMA:
 					borraGoma(e);
 					break;
@@ -259,26 +267,27 @@ public class VentanaPrincipal {
 			 */
 			@Override
 			public void mousePressed(MouseEvent e) {
+
 				xAnt = e.getX();
 				yAnt = e.getY();
 
-				Graphics graficos = canvas.getGraphics();
-				Polygon poly;
-				//
-				// int xPoly[] = { 150, 250, 325, 375, 450, 275, 100 };
-				// int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
-				//
-				int xPoly[] = { 150, 250, 350, 450, 550, 275, 100 };
+				// Si está seleccionado el pincelGeométrico...
+				if (herramientaActual == 2) {
+					// Capturamos los gráficos
+					Graphics graficos = canvas.getGraphics();
 
-				int yPoly[] = { 150, 100, 125, 225, 250, 375, 300 };
-				Rectangle rectangulo = new Rectangle(e.getX()-25, e.getY()-25, ancho, alto);
-				poly = createPolygon(lados, 50, rectangulo);
-				graficos.setColor(selector1.getColor());
+					Polygon poly;
 
-				graficos.drawPolygon(poly);
-				graficos.dispose();
-				lienzo.repaint();
+					// Creamos un rectángulo que servirá de base o plantilla para generar la figura.
+					Rectangle rectangulo = new Rectangle(e.getX() - (ancho / 2), e.getY() - (alto / 2), ancho, alto);
+					poly = createPolygon(lados, 50, rectangulo); // Generamos el poligono
+					graficos.setColor(selector1.getColor());
 
+					graficos.drawPolygon(poly);
+					graficos.fillPolygon(poly);
+					graficos.dispose();
+					lienzo.repaint();
+				}
 			}
 
 			@Override
@@ -347,11 +356,6 @@ public class VentanaPrincipal {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				herramientaActual = herramienta;
-				if (herramientaActual == 2) {
-					lados = pideLados();
-					ancho=pideAncho();
-					alto=pideAlto();
-				}
 			}
 		};
 	}
@@ -393,23 +397,47 @@ public class VentanaPrincipal {
 		yAnt = e.getY();
 	}
 
+	// Métodos para pedir lados, ancho y alto de la figura.
 	public int pideLados() {
-		int lados = 0;
-		lados = Integer.parseInt(JOptionPane.showInputDialog(ventana,"Introduzca numero de lados", "Escriba aqui"));
+		try {
+			lados = Integer
+					.parseInt(JOptionPane.showInputDialog(ventana, "Introduzca número de lados", "Escriba aqui"));
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(ventana, "Debes introducir un número.", "ERROR", 1);
+			pideLados();
+		}
 		return lados;
 
 	}
-	public static int pideAncho() {
-		int ancho = 50;
-		ancho = Integer.parseInt(JOptionPane.showInputDialog("Introduzca Ancho de su figura", "Escriba aqui"));
+
+	public int pideAncho() {
+		try {
+			ancho = Integer
+					.parseInt(JOptionPane.showInputDialog(ventana, "Introduzca Ancho de su figura", "Escriba aqui"));
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(ventana, "Debes introducir un número.", "ERROR", 1);
+			pideAncho();
+		}
 		return ancho;
 	}
-	public static int pideAlto() {
-		int alto = 50;
-		alto = Integer.parseInt(JOptionPane.showInputDialog("Introduzca Alto de su figura", "Escriba aqui"));
+
+	public int pideAlto() {
+		try {
+			alto = Integer
+					.parseInt(JOptionPane.showInputDialog(ventana, "Introduzca Alto de su figura", "Escriba aqui"));
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(ventana, "Debes introducir un número.", "ERROR", 1);
+			pideAlto();
+		}
 		return alto;
 	}
+	//////////////////////////////////
 
+	/**
+	 * Obtenemos las coordenadas de donde pulsa.
+	 * 
+	 * @param e
+	 */
 	private void mouseDraggedPincelGeo(MouseEvent e) {
 		if (xAnt == -1) {
 			xAnt = e.getX();
@@ -417,8 +445,6 @@ public class VentanaPrincipal {
 		if (yAnt == -1) {
 			yAnt = e.getY();
 		}
-
-
 
 	}
 
@@ -435,6 +461,8 @@ public class VentanaPrincipal {
 		graficos.dispose();
 	}
 
+	// Método que genera un poligono a partir del numero de vertices, el ángulo de
+	// barrido y un rectangulo de plantilla.
 	public static Polygon createPolygon(int vertices, double angleOffset, Rectangle r) {
 		if (vertices < 1)
 			throw new IllegalArgumentException("Vertices must be > 0");
