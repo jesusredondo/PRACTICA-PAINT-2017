@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,15 +17,19 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.security.cert.CollectionCertStoreParameters;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SpringLayout.Constraints;
 import javax.swing.border.TitledBorder;
 
 
@@ -37,6 +42,7 @@ public class VentanaPrincipal {
 	 */
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
+	final static int MALLA = 2;
 	//AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 	//TODO: AÃ±adir la herramienta	
 	
@@ -51,11 +57,15 @@ public class VentanaPrincipal {
 	//Paneles:
 	JPanel panelSuperior;
 	JPanel panelInferior;
-	
+	JLayeredPane panelCapas;
 	
 	//Variables para dibujo
 	JLabel lienzo;
 	BufferedImage canvas;
+	
+	//Variables para la malla
+	JLabel lienzomalla;
+	BufferedImage imagenmalla;
 	
 	//Selector de colores;
 	SelectorColor selector1;
@@ -65,6 +75,7 @@ public class VentanaPrincipal {
 	JButton botonNuevo;
 	JButton botonBoligrafo;
 	JButton botonGoma;
+	JButton botonMalla;
 	
 	
 	//VARIABLES PROPIAS DE CADA GRUPO:
@@ -76,14 +87,7 @@ public class VentanaPrincipal {
 	int ratonY;
 	
 	
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-	
->>>>>>> 4cf56c0dd5b1f3b1691c98ae9075436d7343875b
-=======
-	
->>>>>>> 4cf56c0dd5b1f3b1691c98ae9075436d7343875b
+
 	//Constructor, marca el tamaÃ±o y el cierre del frame
 	public VentanaPrincipal() {
 		ventana = new JFrame();
@@ -168,18 +172,18 @@ public class VentanaPrincipal {
 		 */
 		//TODO: Insertar un botÃ³n e implementar mi herramienta.
 		
-		
-		
-		
-		
-		
-		
-		
+		//Botón para herramienta malla.
+		botonMalla = new JButton(cargarIconoBoton("Imagenes/mesh.png"));
+		settings = new GridBagConstraints();
+		settings.gridx = 5;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(botonMalla, settings);
 		
 		//Un elemento que ocupe todo el espacio a la derecha:
 		JPanel panelEspacioDerecha = new JPanel();
 		settings = new GridBagConstraints();
-		settings.gridx = 5; /*** OJO ***/
+		settings.gridx = 6; /*** OJO ***/
 		settings.gridy = 0;
 		settings.weightx = 1;
 		panelSuperior.add(panelEspacioDerecha, settings);
@@ -188,28 +192,40 @@ public class VentanaPrincipal {
 		//***************************
 		//EL LIENZO DONDE PINTAMOS. 
 		//***************************	
-		panelInferior = new JPanel();
-		panelInferior.setBorder(BorderFactory.createLineBorder(Color.RED));
-		panelInferior.setLayout(new GridBagLayout());
+		//panelInferior = new JPanel();
+		//panelInferior.setBorder(BorderFactory.createLineBorder(Color.RED));
+		//panelInferior.setLayout(new GridBagLayout());
+		
+		
+		//Añadir un panel de capas que admita varios paneles de imágenes.
+		panelCapas = new JLayeredPane(); //Panelcapas será un nuevo JLayeredPane
+		panelCapas.setBorder(BorderFactory.createLineBorder(Color.CYAN));
+		panelCapas.setLayout(new GridBagLayout());
+		
 		settings = new GridBagConstraints();
 		settings.gridx = 0;
 		settings.gridy = 1;
 		settings.weightx = 1;
 		settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
-		ventana.add(panelInferior, settings);
+		ventana.add(panelCapas, settings); //Aádimos el panel a la ventana, en la parte inferior.
 		
-		
-		
+		//Inicializamos el lienzo y lo asignamos al panel de capas.
 		lienzo = new JLabel();
+		
 		lienzo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		lienzo.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		settings = new GridBagConstraints();
 		settings.gridx = 0;
 		settings.gridy = 0;
+		settings.weightx = 1;
+		settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
-		panelInferior.add(lienzo, settings);
+		panelCapas.add(lienzo,settings,new Integer(1)); //Añadimos el lienzo al panel como nueva capa, asignando profundidad.
+		panelCapas.moveToFront(lienzo); //Movemos esta capa al frente
 		ventana.repaint();
+		
 		
 		
 	}
@@ -279,8 +295,45 @@ public class VentanaPrincipal {
 				ratonY = e.getY();
 			}
 		});
-
+		
+		botonMalla.addActionListener(new ActionListener() {
 			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Se crea un panel auxiliar que se añadirá como otra capa.
+				JPanel panelAux = new JPanel();
+				panelAux.setLayout(new GridBagLayout());
+				lienzomalla = new JLabel();
+				
+			    imagenmalla = new BufferedImage(lienzo.getWidth(), lienzo.getHeight(), BufferedImage.TYPE_INT_ARGB);
+				lienzomalla.setIcon(new ImageIcon(imagenmalla));
+				
+				//Se asigna el label que contiene la imagen de la malla a la nueva capa.
+				panelAux.add(lienzomalla);
+				
+				//Creamos las restricciones para el panel
+				GridBagConstraints	settings = new GridBagConstraints();
+				settings.gridx = 0;
+				settings.gridy = 0;
+				settings.weightx = 1;
+				settings.weighty = 1;
+				settings.fill = GridBagConstraints.BOTH;
+				
+				//Se añade el panel auxiliar como nueva capa al panel de capas.
+				panelCapas.add(panelAux,settings,new Integer(100));
+				
+				//Movemos la capa del panel de la malla al frente
+				panelCapas.moveToFront(panelAux);
+				//Seleccionamos la capa que queremos mostrar y le damos la profundidad
+				panelCapas.setLayer(panelAux, 100);
+				
+				lienzomalla.repaint();
+				
+				
+			}
+		});
+			
+		
 	}
 	
 	
@@ -289,12 +342,13 @@ public class VentanaPrincipal {
 	 * El nuevo canvas se adapta al tamanio del lienzo.
 	 */
 	public void actualizarCanvasVacio(){
-		canvas = new BufferedImage(panelInferior.getWidth(), panelInferior.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		canvas = new BufferedImage(lienzo.getWidth(), lienzo.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		lienzo.setIcon(new ImageIcon(canvas));
 		Graphics graficos = canvas.getGraphics();
 		graficos.setColor(selector2.getColor());
-		graficos.fillRect(0, 0, panelInferior.getWidth(), panelInferior.getHeight());
+		graficos.fillRect(0, 0, panelCapas.getWidth(), panelCapas.getHeight());
 		graficos.dispose();
+		
 		lienzo.repaint();
 	}
 	
@@ -314,6 +368,21 @@ public class VentanaPrincipal {
 			e.printStackTrace();
 		}
 		return new ImageIcon(bufferAuxiliar.getScaledInstance(40, 40, BufferedImage.SCALE_SMOOTH));
+	}
+	
+	/**
+	 * Método que carga la imagen de la malla escalada al tamaño del lienzo
+	 * @param rutaImagen
+	 * @return
+	 */
+	public ImageIcon cargarImagenMalla(String rutaImagen){
+		BufferedImage bufferAuxiliar = null;
+		try {
+			bufferAuxiliar = ImageIO.read(new File(rutaImagen));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new ImageIcon(bufferAuxiliar.getScaledInstance(lienzo.getHeight(),lienzo.getWidth(), BufferedImage.SCALE_SMOOTH));
 	}
 	
 	
@@ -368,21 +437,16 @@ public class VentanaPrincipal {
 		graficos.setColor(selector1.getColor());
 		graficos.drawLine(ratonX, ratonY, e.getX(), e.getY());
 		graficos.dispose();
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 		xAnt = e.getX();
 		yAnt = e.getY();
-		
-		
-=======
+
 		ratonX = e.getX();
 		ratonY = e.getY();
->>>>>>> 4cf56c0dd5b1f3b1691c98ae9075436d7343875b
-=======
+
 		ratonX = e.getX();
 		ratonY = e.getY();
->>>>>>> 4cf56c0dd5b1f3b1691c98ae9075436d7343875b
-		
+
 	}
 	
 	

@@ -17,7 +17,10 @@ import javax.swing.JColorChooser;
 public class SelectorColor extends JButton implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	
-	
+	//sacar el color RGB
+	//selector1.getColor().getRed();
+	//selector1.getColor().getGreen();
+	//selector1.getColor().getBlue();
 	Color color;
 	
 	/**
