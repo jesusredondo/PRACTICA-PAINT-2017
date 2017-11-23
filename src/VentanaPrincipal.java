@@ -60,21 +60,15 @@ public class VentanaPrincipal {
 	// Variables para dibujo
 	JLabel lienzo;
 	BufferedImage canvas;
-	
-	//Selector de colores;
 
 	// Selector de colores;
 	SelectorColor selector1;
 	SelectorColor selector2;
-	
-	//Botones:
 
 	// Botones:
 	JButton botonNuevo;
 	JButton botonBoligrafo;
 	JButton botonGoma;
-	
-	//Tamaño de cursor
 
 	// Tamaño de cursor
 	int tamanhoCursor;
@@ -94,8 +88,6 @@ public class VentanaPrincipal {
 	int xAnt=-1;
 	int yAnt=-1;
 	final int strokeGOMA = 10;
-	
-	//Constructor, marca el tamaÃ±o y el cierre del frame
 
 	// Constructor, marca el tamaÃ±o y el cierre del frame
 	public VentanaPrincipal() {
@@ -107,13 +99,9 @@ public class VentanaPrincipal {
 	/**
 	 * MÃ©todo que inicializa todos los componentes de la ventana
 	 */
-	public void inicializarComponentes(){
-		
 	public void inicializarComponentes() {
 
 		ventana.setLayout(new GridBagLayout());
-		//PANEL SUPERIOR Y COMPONENTES DE PANEL SUPERIOR
-		//************************************************
 
 		// ************************************************
 		// PANEL SUPERIOR Y COMPONENTES DE PANEL SUPERIOR
@@ -125,6 +113,7 @@ public class VentanaPrincipal {
 
 		GridBagConstraints settings;
 		settings = new GridBagConstraints();
+
 		settings.gridx = 0;
 		settings.gridy = 0;
 		settings.weightx = 1;
@@ -177,9 +166,38 @@ public class VentanaPrincipal {
 		/**
 		 * VUESTRAS HERRAMIENTAS AQUÃ�
 		 */
+
 		//TODO: Insertar un botÃ³n e implementar mi herramienta.
+		//Flecha Izquierda, LabelTama�o y Flecha Derecha
+		disminuirTamanhoCursor=new JButton(cargarIconoBoton("Imagenes/flechaIzquierda.png"));
+		settings= new GridBagConstraints();
+		settings.gridx=5;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(disminuirTamanhoCursor, settings);
 		
 		
+		lienzoTamanhoCursor=new JLabel();
+		settings= new GridBagConstraints();
+		settings.gridx=6;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(lienzoTamanhoCursor, settings);
+		
+		canvasTamanhoCursor= new BufferedImage(70, 50, Image.SCALE_SMOOTH);
+		graficoTamanhoCursor= canvasTamanhoCursor.getGraphics();
+		graficoTamanhoCursor.setColor(Color.WHITE);
+		graficoTamanhoCursor.fillRect(0, 0, canvasTamanhoCursor.getWidth(), canvasTamanhoCursor.getHeight());
+		graficoTamanhoCursor.dispose();
+		lienzoTamanhoCursor.setIcon(new ImageIcon(canvasTamanhoCursor));
+		pintarTamanho();
+		
+		aumentarTamanhoCursor=new JButton(cargarIconoBoton("Imagenes/flechaDerecha.png"));
+		settings= new GridBagConstraints();
+		settings.gridx=7;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(aumentarTamanhoCursor, settings);
 		
 		
 		
@@ -189,15 +207,10 @@ public class VentanaPrincipal {
 
 		JPanel panelEspacioDerecha = new JPanel();
 		settings = new GridBagConstraints();
-		settings.gridx = 5; /*** OJO ***/
 		settings.gridx = 8; /*** OJO ***/
 		settings.gridy = 0;
 		settings.weightx = 1;
 		panelSuperior.add(panelEspacioDerecha, settings);
-		
-		//***************************
-		//EL LIENZO DONDE PINTAMOS. 
-		//***************************	
 
 		// ***************************
 		// EL LIENZO DONDE PINTAMOS.
@@ -212,8 +225,6 @@ public class VentanaPrincipal {
 		settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelInferior, settings);
-		
-		
 
 		lienzo = new JLabel();
 		lienzo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -230,13 +241,16 @@ public class VentanaPrincipal {
 	/**
 	 * MÃ©todo que inicializa todos los listeners del programa.
 	 */
+	public void inicializarListeners() {
+
+		// LÃ­stener de carga de VentanaPrincipal. Cuando se carga la pantalla es cuando
+		// se puede inicializar el canvas.
 		ventana.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
 				actualizarCanvasVacio();
 			}
 		});
-		
 
 		botonNuevo.addActionListener(new ActionListener() {
 			@Override
@@ -244,6 +258,8 @@ public class VentanaPrincipal {
 				actualizarCanvasVacio();
 			}
 		});
+
+		// Redimensinado del lienzo al redimensionar la ventana
 		ventana.addComponentListener(new ComponentAdapter() {
 
 			@Override
@@ -328,7 +344,6 @@ public class VentanaPrincipal {
 
 	/**
 	 * MÃ©todo que nos devuelve un icono para la barra de herramientas superior.
-	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que sea cuadrada, para no estropear la interfaz.
 	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que sea
 	 * cuadrada, para no estropear la interfaz.
 	 * 
@@ -336,7 +351,6 @@ public class VentanaPrincipal {
 	 *            La ruta de la imagen.
 	 * @return El ImageIcon que se utilizarÃ¡ en un botÃ³n.
 	 */
-	public ImageIcon cargarIconoBoton(String rutaImagen){
 	public ImageIcon cargarIconoBoton(String rutaImagen) {
 		BufferedImage bufferAuxiliar = null;
 		try {
@@ -346,20 +360,15 @@ public class VentanaPrincipal {
 		}
 		return new ImageIcon(bufferAuxiliar.getScaledInstance(40, 40, BufferedImage.SCALE_SMOOTH));
 	}
-	
-	
 
 	/**
-	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a la que se pasa por parÃ¡metros
 	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a la
 	 * que se pasa por parÃ¡metros
 	 * 
 	 * @param herramienta
-	 * @return Un action listener que cambia la herramienta actual. Se puede utilizar sobre los botones, por ejemplo.
 	 * @return Un action listener que cambia la herramienta actual. Se puede
 	 *         utilizar sobre los botones, por ejemplo.
 	 */
-	public ActionListener anadirListenerHerramienta(int herramienta){
 	public ActionListener anadirListenerHerramienta(int herramienta) {
 		return new ActionListener() {
 			@Override
@@ -368,19 +377,13 @@ public class VentanaPrincipal {
 			}
 		};
 	}
-	
-	
 
 	/**
-	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la ventana correctamente.
 	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la ventana
 	 * correctamente.
 	 */
-	public void inicializar(){
 	public void inicializar() {
 		ventana.setVisible(true);
-		inicializarComponentes();	
-		inicializarListeners();		
 		inicializarComponentes();
 		inicializarListeners();
 	}
@@ -460,6 +463,7 @@ public class VentanaPrincipal {
 				lineaGorda.draw(new Line2D.Float(xAnt ,yAnt, e.getX(), e.getY()));
 				grafico.dispose();
 		
+
 	}
 
 	/**
@@ -482,6 +486,5 @@ public class VentanaPrincipal {
 
 		
 	}
-	
-	
+
 }
