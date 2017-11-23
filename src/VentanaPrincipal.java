@@ -322,7 +322,9 @@ public class VentanaPrincipal {
 				// canvas = canvasAnterior;
 				canvasAnterior = new BufferedImage(panelInferior.getWidth(), panelInferior.getHeight(), BufferedImage.TYPE_INT_ARGB);
 				lienzo.setIcon(new ImageIcon(canvasAnterior));
-				
+				//correccion rapida por joaquin
+				//Ahora limpia el canvas
+				canvas.flush();canvas=canvasAnterior;
 				lienzo.repaint();
 				
 			}
