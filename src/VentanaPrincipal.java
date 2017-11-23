@@ -39,16 +39,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class VentanaPrincipal {
 
 	/**
-	 * IMPORTANTE: CADA HERRAMIENTA TENDRÃƒï¿½ UN CÃƒâ€œDIGO ASOCIADO
+	 * IMPORTANTE: CADA HERRAMIENTA TENDRÃƒÆ’Ã¯Â¿Â½ UN CÃƒÆ’Ã¢â‚¬Å“DIGO ASOCIADO
 	 */
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
 
-	//TODO: AÃƒÂ±adir la herramienta	
+	//TODO: AÃƒÆ’Ã‚Â±adir la herramienta	
 
 	
 
-	// AÑADE AQUÍ TU HERRAMIENTA;
+	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 
 	final static int CLONAR = 2;
 	final static int DESHACER = 3;
@@ -86,7 +86,7 @@ public class VentanaPrincipal {
 	JButton botonCargarImagen;
 	
 	//VARIABLES PROPIAS DE CADA GRUPO:
-	//Grupo Jesús:
+	//Grupo JesÃºs:
 	int xAnt=-1;
 	int yAnt=-1;
 	final int strokeGOMA = 10;
@@ -115,10 +115,11 @@ public class VentanaPrincipal {
 		ventana = new JFrame();
 		ventana.setBounds(100, 50, 800, 600);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ventana.setTitle("Paint grupo 2");
 	}
 
 	/**
-	 * Método que inicializa todos los componentes de la ventana
+	 * MÃ©todo que inicializa todos los componentes de la ventana
 	 */
 	public void inicializarComponentes() {
 
@@ -143,7 +144,7 @@ public class VentanaPrincipal {
 
 		ventana.add(panelSuperior,settings);
 		
-		// BotÃ³n nuevo
+		// BotÃƒÂ³n nuevo
 
 
 		botonNuevo = new JButton(cargarIconoBoton("Imagenes/nuevo.png"));
@@ -173,7 +174,7 @@ public class VentanaPrincipal {
 		
 		
 
-		// Herramienta de bolígrafo
+		// Herramienta de bolÃ­grafo
 
 		botonBoligrafo = new JButton(cargarIconoBoton("Imagenes/boligrafo.png"));
 		settings = new GridBagConstraints();
@@ -191,7 +192,7 @@ public class VentanaPrincipal {
 		panelSuperior.add(botonGoma, settings);
 
 		/**
-		 * VUESTRAS HERRAMIENTAS AQUí
+		 * VUESTRAS HERRAMIENTAS AQUÃ­
 		 */
 		
 		//Herramienta de clonar
@@ -224,7 +225,7 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonRehacer, settings);
 
-		//Botón de guardar imagen
+		//BotÃ³n de guardar imagen
 		botonSave = new JButton(cargarIconoBoton("imagenes/guardar.png"));
 		settings = new GridBagConstraints();
 		settings.gridx = 8;
@@ -232,7 +233,7 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonSave, settings);
 
-		//Botón cargar imagen
+		//BotÃ³n cargar imagen
 		botonCargarImagen = new JButton(cargarIconoBoton("imagenes/loadImageIcon.png"));
 		settings = new GridBagConstraints();
 		settings.gridx = 9;
@@ -275,7 +276,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que inicializa todos los listeners del programa.
+	 * MÃ©todo que inicializa todos los listeners del programa.
 	 */
 	public void inicializarListeners() {
 
@@ -297,7 +298,7 @@ public class VentanaPrincipal {
 		});
 
 		/**
-		 * Cada nueva herramienta que añadas, tendrá un nuevo lisstener:
+		 * Cada nueva herramienta que aÃ±adas, tendrÃ¡ un nuevo lisstener:
 		 */
 		botonBoligrafo.addActionListener(anadirListenerHerramienta(BOLIGRAFO));
 		botonGoma.addActionListener(anadirListenerHerramienta(GOMA));
@@ -341,7 +342,7 @@ public class VentanaPrincipal {
 
 		// Joaquin
 
-		// TODO: Añadir nuevos listeners para las herramientas:
+		// TODO: AÃ±adir nuevos listeners para las herramientas:
 		botonSave.addActionListener(new ActionListener() {
 
 			@Override
@@ -390,7 +391,7 @@ public class VentanaPrincipal {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				{
-					//Si la herramienta CLONAR está seleccionada se pulsa el botón derecho
+					//Si la herramienta CLONAR estÃ¡ seleccionada se pulsa el botÃ³n derecho
 					if (herramientaActual==CLONAR && SwingUtilities.isRightMouseButton(e))
 					{
 					//Actualizala referencia
@@ -419,7 +420,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que Borra el canvas para pintarlo completamente en Blanco. El nuevo
+	 * MÃ©todo que Borra el canvas para pintarlo completamente en Blanco. El nuevo
 	 * canvas se adapta al tamanio del lienzo.
 	 */
 	public void actualizarCanvasVacio() {
@@ -433,13 +434,13 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que nos devuelve un icono para la barra de herramientas superior.
-	 * NOTA: Será conveniente colocar una imagen con fondo transparente y que sea
+	 * MÃ©todo que nos devuelve un icono para la barra de herramientas superior.
+	 * NOTA: SerÃ¡ conveniente colocar una imagen con fondo transparente y que sea
 	 * cuadrada, para no estropear la interfaz.
 	 * 
 	 * @param rutaImagen:
 	 *            La ruta de la imagen.
-	 * @return El ImageIcon que se utilizará¡ en un botón.
+	 * @return El ImageIcon que se utilizarÃ¡Â¡ en un botÃ³n.
 	 */
 	public ImageIcon cargarIconoBoton(String rutaImagen) {
 		BufferedImage bufferAuxiliar = null;
@@ -452,8 +453,8 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que devuelve un actionListener que cambia la herramienta Actual a la
-	 * que se pasa por parÃ¡metros
+	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a la
+	 * que se pasa por parÃƒÂ¡metros
 	 * 
 	 * @param herramienta
 	 * @return Un action listener que cambia la herramienta actual. Se puede
@@ -470,7 +471,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que realiza todas las llamadas necesarias para inicializar la ventana
+	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la ventana
 	 * correctamente.
 	 */
 	public void inicializar() {
@@ -481,13 +482,13 @@ public class VentanaPrincipal {
 
 	/*****************************************
 	 *****************************************
-	 * AQUÍ VAN LOS MÉTODOS DE LOS LISTENERS:
+	 * AQUÃ� VAN LOS MÃ‰TODOS DE LOS LISTENERS:
 	 *****************************************
 	 *****************************************/
 	
 	
 	/**
-	 * Pinta la línea del bolígrafo al arrastrarlo
+	 * Pinta la lÃ­nea del bolÃ­grafo al arrastrarlo
 	 * 
 	 * @param e
 	 */
@@ -509,7 +510,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Borra donde está el ratón.
+	 * Borra donde estÃ¡ el ratÃ³n.
 	 * @param e
 	 */
 	private void borraGoma(MouseEvent e) {
@@ -520,8 +521,8 @@ public class VentanaPrincipal {
 	}
 	
 	/**
-	 *  Método de clonado
-	 * @param e - Evento del ratón
+	 *  MÃ©todo de clonado
+	 * @param e - Evento del ratÃ³n
 	 */
 	private void clonar(MouseEvent e)
 	{
@@ -550,9 +551,9 @@ public class VentanaPrincipal {
 	}
 	/*
 	 * Este metodo permite guardar el contenido del canvas a un archivo Para ello
-	 * abrirÃ¡ un JfileChooser en el que el usuario elegirÃ¡ donde desea guardar el
-	 * archivo y su nombre Si la ruta no tiene la extensiÃ³n jpg png o gif se le
-	 * aÃ±adirÃ¡ al final .png
+	 * abrirÃƒÂ¡ un JfileChooser en el que el usuario elegirÃƒÂ¡ donde desea guardar el
+	 * archivo y su nombre Si la ruta no tiene la extensiÃƒÂ³n jpg png o gif se le
+	 * aÃƒÂ±adirÃƒÂ¡ al final .png
 	 * 
 	 * @author Joaquin Alonso Perianez Grupo 2
 	 */
@@ -586,7 +587,7 @@ public class VentanaPrincipal {
 		}
 	}
 	/**
-	 * 	Método para cargar imagen desde un fichero. Rescala la imagen selecionada y la pinta sobre el canvas
+	 * 	MÃ©todo para cargar imagen desde un fichero. Rescala la imagen selecionada y la pinta sobre el canvas
 	 */
 	protected void cargarImagen()
 	{
