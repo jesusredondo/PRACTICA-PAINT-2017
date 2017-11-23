@@ -1,7 +1,10 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
@@ -67,9 +72,16 @@ public class VentanaPrincipal {
 	JButton botonGoma;
 	
 	//Tamaño de cursor
-	int tamanhoCursor;
+	int tamanhoCursor=10;
 	
 	//VARIABLES PROPIAS DE CADA GRUPO:
+	//Grupo 3
+	JButton disminuirTamanhoCursor;
+	JButton aumentarTamanhoCursor;
+	JLabel lienzoTamanhoCursor;
+	BufferedImage canvasTamanhoCursor;
+	Graphics graficoTamanhoCursor;
+	
 	//Grupo JesÃºs:
 	int xAnt=-1;
 	int yAnt=-1;
@@ -159,10 +171,36 @@ public class VentanaPrincipal {
 		 * VUESTRAS HERRAMIENTAS AQUÃ�
 		 */
 		//TODO: Insertar un botÃ³n e implementar mi herramienta.
+		//Flecha Izquierda, LabelTama�o y Flecha Derecha
+		disminuirTamanhoCursor=new JButton(cargarIconoBoton("Imagenes/flechaIzquierda.png"));
+		settings= new GridBagConstraints();
+		settings.gridx=5;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(disminuirTamanhoCursor, settings);
 		
 		
+		lienzoTamanhoCursor=new JLabel();
+		settings= new GridBagConstraints();
+		settings.gridx=6;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(lienzoTamanhoCursor, settings);
 		
+		canvasTamanhoCursor= new BufferedImage(70, 50, Image.SCALE_SMOOTH);
+		graficoTamanhoCursor= canvasTamanhoCursor.getGraphics();
+		graficoTamanhoCursor.setColor(Color.WHITE);
+		graficoTamanhoCursor.fillRect(0, 0, canvasTamanhoCursor.getWidth(), canvasTamanhoCursor.getHeight());
+		graficoTamanhoCursor.dispose();
+		lienzoTamanhoCursor.setIcon(new ImageIcon(canvasTamanhoCursor));
+		pintarTamanho();
 		
+		aumentarTamanhoCursor=new JButton(cargarIconoBoton("Imagenes/flechaDerecha.png"));
+		settings= new GridBagConstraints();
+		settings.gridx=7;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(aumentarTamanhoCursor, settings);
 		
 		
 		
@@ -171,7 +209,7 @@ public class VentanaPrincipal {
 		//Un elemento que ocupe todo el espacio a la derecha:
 		JPanel panelEspacioDerecha = new JPanel();
 		settings = new GridBagConstraints();
-		settings.gridx = 5; /*** OJO ***/
+		settings.gridx = 8; /*** OJO ***/
 		settings.gridy = 0;
 		settings.weightx = 1;
 		panelSuperior.add(panelEspacioDerecha, settings);
@@ -262,7 +300,23 @@ public class VentanaPrincipal {
 			}			
 		});
 		
+		aumentarTamanhoCursor.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tamanhoCursor++;
+				pintarTamanho();
+			}
+		});
 		
+		disminuirTamanhoCursor.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tamanhoCursor--;
+				pintarTamanho();
+			}
+		});
 	}
 	
 	
@@ -330,9 +384,28 @@ public class VentanaPrincipal {
 	 * AQUÃ� VAN LOS MÃ‰TODOS DE LOS LISTENERS:
 	 *****************************************
 	 *****************************************/
+	/**
+	 * 
+	 */
+	public void pintarTamanho() {
+		refrescarCanvasTamanhoCursor();
+		graficoTamanhoCursor=canvasTamanhoCursor.getGraphics();
+		graficoTamanhoCursor.setColor(selector1.getColor());
+		graficoTamanhoCursor.fillOval((canvasTamanhoCursor.getWidth()/2)-tamanhoCursor/2, (canvasTamanhoCursor.getHeight()/2)-tamanhoCursor/2, tamanhoCursor, tamanhoCursor);
+		graficoTamanhoCursor.dispose();
+		lienzoTamanhoCursor.repaint();
+		
+	}
 	
+	public void refrescarCanvasTamanhoCursor() {
+		canvasTamanhoCursor= new BufferedImage(70, 50, Image.SCALE_SMOOTH);
+		graficoTamanhoCursor= canvasTamanhoCursor.getGraphics();
+		graficoTamanhoCursor.setColor(selector2.getColor());
+		graficoTamanhoCursor.fillRect(0, 0, canvasTamanhoCursor.getWidth(), canvasTamanhoCursor.getHeight());
+		graficoTamanhoCursor.dispose();
+		lienzoTamanhoCursor.setIcon(new ImageIcon(canvasTamanhoCursor));
+	}
 	
-
 	
 	/**
 	 * Pinta la lÃ­nea del bolÃ­grafo al arrastrar.
@@ -346,12 +419,20 @@ public class VentanaPrincipal {
 			yAnt=e.getY();
 		}
 		
-		Graphics graficos = canvas.getGraphics();
+		Graphics grafico;
+				grafico=canvas.getGraphics();
+				Graphics2D lineaGorda=(Graphics2D) grafico;
+				lineaGorda.setColor(selector1.getColor());
+				lineaGorda.setStroke(new BasicStroke((tamanhoCursor)));
+				lineaGorda.draw(new Line2D.Float(xAnt ,yAnt, e.getX(), e.getY()));
+				grafico.dispose();
+		
+		/*Graphics graficos = canvas.getGraphics();
 		graficos.setColor(selector1.getColor());
 		graficos.drawLine(xAnt, yAnt, e.getX(), e.getY());
 		graficos.dispose();
 		xAnt = e.getX();
-		yAnt = e.getY();
+		yAnt = e.getY();*/
 	}
 	
 	
@@ -360,13 +441,24 @@ public class VentanaPrincipal {
 	 * @param e
 	 */
 	private void borraGoma(MouseEvent e){
-		Graphics graficos = canvas.getGraphics();
+		
+		
+		Graphics grafico;
+				grafico=canvas.getGraphics();
+				Graphics2D lineaGorda=(Graphics2D) grafico;
+				lineaGorda.setColor(selector2.getColor());
+				lineaGorda.setStroke(new BasicStroke((tamanhoCursor)));
+				lineaGorda.draw(new Line2D.Float(xAnt ,yAnt, e.getX(), e.getY()));
+				grafico.dispose();
+
+		
+		/*Graphics graficos = canvas.getGraphics();
 		graficos.setColor(selector2.getColor());
 		graficos.fillOval(e.getX()-(strokeGOMA/2), 
 				e.getY()-(strokeGOMA/2), 
 				strokeGOMA, 
 				strokeGOMA);
-		graficos.dispose();
+		graficos.dispose();*/
 	}
 	
 	
