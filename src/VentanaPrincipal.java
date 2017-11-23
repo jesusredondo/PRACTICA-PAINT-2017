@@ -311,6 +311,8 @@ public class VentanaPrincipal {
 		 * 
 		 * https://alvinalexander.com/java/jwarehouse/jEdit/jEdit/org/gjt/sp/jedit/buffer/UndoManager.java.shtml
 		 * 
+		 * CORRECCION MENOR: AHORA DESHACER LIMPIA EL CANVAS
+		 * 
 		 * @author ALBERTO REY MORENO - GRUPO 2 
 		 * 
 		 */
@@ -324,7 +326,8 @@ public class VentanaPrincipal {
 				lienzo.setIcon(new ImageIcon(canvasAnterior));
 				//correccion rapida por joaquin
 				//Ahora limpia el canvas
-				canvas.flush();canvas=canvasAnterior;
+				//canvas.flush();
+				canvas=canvasAnterior;
 				lienzo.repaint();
 				
 			}
