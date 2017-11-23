@@ -19,8 +19,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+<<<<<<< HEAD
 
 import java.awt.event.WindowListener;
+=======
+>>>>>>> f6977783003ddd7a8be92911ae03f0242fe74743
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -69,12 +72,18 @@ public class VentanaPrincipal {
 	JButton botonNuevo;
 	JButton botonBoligrafo;
 	JButton botonGoma;
+<<<<<<< HEAD
 
 	// Tamaño de cursor
 	int tamanhoCursor;
 	// Imgen aux del lienzo
 	Image imageAux;
 
+=======
+	
+	//Tamaño de cursor
+	int tamanhoCursor=10;
+>>>>>>> f6977783003ddd7a8be92911ae03f0242fe74743
 	
 	//VARIABLES PROPIAS DE CADA GRUPO:
 	//Grupo 3
@@ -168,7 +177,11 @@ public class VentanaPrincipal {
 		 */
 
 		//TODO: Insertar un botÃ³n e implementar mi herramienta.
+<<<<<<< HEAD
 		//Flecha Izquierda, LabelTama�o y Flecha Derecha
+=======
+		//Flecha Izquierda, LabelTama�o y Flecha Derecha
+>>>>>>> f6977783003ddd7a8be92911ae03f0242fe74743
 		disminuirTamanhoCursor=new JButton(cargarIconoBoton("Imagenes/flechaIzquierda.png"));
 		settings= new GridBagConstraints();
 		settings.gridx=5;
@@ -325,7 +338,10 @@ public class VentanaPrincipal {
 				pintarTamanho();
 			}
 		});
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6977783003ddd7a8be92911ae03f0242fe74743
 	}
 
 	/**
@@ -393,6 +409,7 @@ public class VentanaPrincipal {
 	 * AQUÃ� VAN LOS MÃ‰TODOS DE LOS LISTENERS:
 	 *****************************************
 	 *****************************************/
+<<<<<<< HEAD
 
 
 	// Actualizar el lienzo tras redimensionar
@@ -423,6 +440,8 @@ public class VentanaPrincipal {
 	}
 
 
+=======
+>>>>>>> f6977783003ddd7a8be92911ae03f0242fe74743
 	/**
 	 * 
 	 */
@@ -463,7 +482,24 @@ public class VentanaPrincipal {
 				lineaGorda.draw(new Line2D.Float(xAnt ,yAnt, e.getX(), e.getY()));
 				grafico.dispose();
 		
+<<<<<<< HEAD
 
+=======
+		Graphics grafico;
+				grafico=canvas.getGraphics();
+				Graphics2D lineaGorda=(Graphics2D) grafico;
+				lineaGorda.setColor(selector1.getColor());
+				lineaGorda.setStroke(new BasicStroke((tamanhoCursor)));
+				lineaGorda.draw(new Line2D.Float(xAnt ,yAnt, e.getX(), e.getY()));
+				grafico.dispose();
+		
+		/*Graphics graficos = canvas.getGraphics();
+		graficos.setColor(selector1.getColor());
+		graficos.drawLine(xAnt, yAnt, e.getX(), e.getY());
+		graficos.dispose();
+		xAnt = e.getX();
+		yAnt = e.getY();*/
+>>>>>>> f6977783003ddd7a8be92911ae03f0242fe74743
 	}
 
 	/**
@@ -475,7 +511,11 @@ public class VentanaPrincipal {
 
 	private void borraGoma(MouseEvent e){
 		
+<<<<<<< HEAD
 		posicionInicial(e);
+=======
+		
+>>>>>>> f6977783003ddd7a8be92911ae03f0242fe74743
 		Graphics grafico;
 				grafico=canvas.getGraphics();
 				Graphics2D lineaGorda=(Graphics2D) grafico;
@@ -485,6 +525,16 @@ public class VentanaPrincipal {
 				grafico.dispose();
 
 		
+<<<<<<< HEAD
+=======
+		/*Graphics graficos = canvas.getGraphics();
+		graficos.setColor(selector2.getColor());
+		graficos.fillOval(e.getX()-(strokeGOMA/2), 
+				e.getY()-(strokeGOMA/2), 
+				strokeGOMA, 
+				strokeGOMA);
+		graficos.dispose();*/
+>>>>>>> f6977783003ddd7a8be92911ae03f0242fe74743
 	}
 
 }
