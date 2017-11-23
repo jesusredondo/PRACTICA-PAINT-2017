@@ -120,6 +120,9 @@ public class VentanaPrincipal {
 		// ************************************************
 		panelSuperior = new JPanel();
 		panelSuperior.setLayout(new GridBagLayout());
+		panelSuperior.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.DARK_GRAY),
+				"Herramientas", TitledBorder.CENTER, TitledBorder.TOP));
+
 		GridBagConstraints settings;
 		settings = new GridBagConstraints();
 		settings.gridx = 0;
@@ -241,6 +244,14 @@ public class VentanaPrincipal {
 				actualizarCanvasVacio();
 			}
 		});
+		ventana.addComponentListener(new ComponentAdapter() {
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				redimensionarLienzo();
+			}
+		});
+
 		/**
 		 * Cada nueva herramienta que aÃ±adas, tendrÃ¡ un nuevo lÃ­stener:
 		 */
@@ -318,7 +329,6 @@ public class VentanaPrincipal {
 	/**
 	 * MÃ©todo que nos devuelve un icono para la barra de herramientas superior.
 	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que sea cuadrada, para no estropear la interfaz.
-	 * @param rutaImagen: La ruta de la imagen.
 	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que sea
 	 * cuadrada, para no estropear la interfaz.
 	 * 
@@ -439,13 +449,6 @@ public class VentanaPrincipal {
 	 * 
 	 * @param e
 	 */
-	private void mouseDraggedBoligrafo(MouseEvent e){
-		if(xAnt==-1){
-			xAnt=e.getX();
-		}
-		if(yAnt==-1){
-			yAnt=e.getY();
-		}
 
 	private void mouseDraggedBoligrafo(MouseEvent e) {
 		posicionInicial(e);
@@ -457,12 +460,6 @@ public class VentanaPrincipal {
 				lineaGorda.draw(new Line2D.Float(xAnt ,yAnt, e.getX(), e.getY()));
 				grafico.dispose();
 		
-		Graphics graficos = canvas.getGraphics();
-		graficos.setColor(selector1.getColor());
-		graficos.drawLine(xAnt, yAnt, e.getX(), e.getY());
-		graficos.dispose();
-		xAnt = e.getX();
-		yAnt = e.getY();
 	}
 
 	/**
