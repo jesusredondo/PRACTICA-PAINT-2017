@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -55,7 +56,8 @@ public class VentanaPrincipal {
 
 	ButtonGroup grupoFuente = new ButtonGroup();
 	ButtonGroup grupoEstilo = new ButtonGroup();
-	JButton botonColor, botonAceptar;
+	SelectorColor botonColor;
+	JButton botonAceptar;
 
 	int herramientaActual = -1; // No hay nada por defecto.
 
@@ -132,7 +134,7 @@ public class VentanaPrincipal {
 		panelSuperior.add(botonNuevo, settings);
 
 		// Selector de color1
-		selector1 = new SelectorColor(Color.ORANGE);
+		selector1 = new SelectorColor(Color.BLACK);
 		settings = new GridBagConstraints();
 		settings.gridx = 1;
 		settings.gridy = 0;
@@ -284,7 +286,7 @@ public class VentanaPrincipal {
 				ventanaTexto = new JFrame("Selecciona Texto");
 
 				ventanaTexto.setBounds(100, 50, 700, 500);
-				ventanaTexto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				ventanaTexto.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				ventanaTexto.setVisible(true);
 				ventanaTexto.setLayout(new GridBagLayout());
 
@@ -329,7 +331,7 @@ public class VentanaPrincipal {
 				settings.fill = GridBagConstraints.BOTH;
 				panelInferiorVentanaTexto.add(tam, settings);
 
-				botonColor = new JButton("Color");
+				botonColor = new SelectorColor(Color.BLACK);
 				settings = new GridBagConstraints();
 				settings.gridx = 1;
 				settings.gridy = 1;
@@ -360,9 +362,27 @@ public class VentanaPrincipal {
 				settings = new GridBagConstraints();
 				settings.gridx = 0;
 				settings.gridy = 5;
-				settings.anchor=GridBagConstraints.WEST;
+				settings.anchor = GridBagConstraints.WEST;
 				panelInferiorVentanaTexto.add(botonAceptar, settings);
 
+				botonAceptar.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Graphics graficos = canvas.getGraphics();
+						graficos.setColor(botonColor.getColor());//Le damos el color de nuestro botonColor
+
+						Font fuente = new Font("Dialog", Font.BOLD, Integer.parseInt((tam.getText())));//Creamos una fuente
+						graficos.setFont(fuente);//Le damos una fuente
+
+						graficos.drawString(txt.getText(), xAnt, yAnt);//Pintamos el texto
+
+						graficos.dispose();
+						lienzo.repaint();
+						ventanaTexto.hide();
+
+					}
+				});
 			}
 		});
 
