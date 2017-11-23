@@ -18,6 +18,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -38,22 +39,22 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class VentanaPrincipal {
 
 	/**
-	 * IMPORTANTE: CADA HERRAMIENTA TENDRÃ� UN CÃ“DIGO ASOCIADO
+	 * IMPORTANTE: CADA HERRAMIENTA TENDRÃƒï¿½ UN CÃƒâ€œDIGO ASOCIADO
 	 */
 	final static int BOLIGRAFO = 0;
 	final static int GOMA = 1;
 
-	//TODO: AÃ±adir la herramienta	
+	//TODO: AÃƒÂ±adir la herramienta	
 
 	
 
-	// AÑADE AQUÍ TU HERRAMIENTA;
-	// TODO: Añadir la herramienta
+	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
+	// TODO: AÃ±adir la herramienta
 	final static int CLONAR = 2;
 	final static int DESHACER = 3;
 	final static int REHACER = 4;
 	final static int GUARDAR = 5;
-
+	final static int CARGAR = 6;
 
 
 	int herramientaActual = -1; // No hay nada por defecto.
@@ -79,10 +80,13 @@ public class VentanaPrincipal {
 	JButton botonBoligrafo;
 	JButton botonGoma;
 	JButton botonClonar;
-	
+	JButton botonDeshacer;
+	JButton botonRehacer;
+	JButton botonSave;
+	JButton botonCargarImagen;
 	
 	//VARIABLES PROPIAS DE CADA GRUPO:
-	//Grupo JesÃºs:
+	//Grupo Jesús:
 	int xAnt=-1;
 	int yAnt=-1;
 	final int strokeGOMA = 10;
@@ -96,17 +100,14 @@ public class VentanaPrincipal {
 	int offsetY =0;
 	int lastX = 0;
 	int lastY = 0;
+	int tamanioClonar =100;
+	boolean empiezaClonar = false;
 	
-	
-	JButton botonDeshacer;
-	JButton botonRehacer;
 
 	BufferedImage canvasAnterior;
 	BufferedImage canvasPosterior;
 
-	JButton botonSave;
-
-
+	//Ruta por defecto de guardado
 	String rutaIncial = "\\home\\";
 
 
@@ -117,7 +118,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que inicializa todos los componentes de la ventana
+	 * MÃƒÂ©todo que inicializa todos los componentes de la ventana
 	 */
 	public void inicializarComponentes() {
 
@@ -142,7 +143,7 @@ public class VentanaPrincipal {
 
 		ventana.add(panelSuperior,settings);
 		
-		// Botón nuevo
+		// BotÃ³n nuevo
 
 
 		botonNuevo = new JButton(cargarIconoBoton("Imagenes/nuevo.png"));
@@ -172,7 +173,7 @@ public class VentanaPrincipal {
 		
 		
 
-		// Herramienta de bolígrafo
+		// Herramienta de bolÃ­grafo
 
 		botonBoligrafo = new JButton(cargarIconoBoton("Imagenes/boligrafo.png"));
 		settings = new GridBagConstraints();
@@ -190,7 +191,7 @@ public class VentanaPrincipal {
 		panelSuperior.add(botonGoma, settings);
 
 		/**
-		 * VUESTRAS HERRAMIENTAS AQUÃ�
+		 * VUESTRAS HERRAMIENTAS AQUÃƒï¿½
 		 */
 		
 		//Herramienta de clonar
@@ -203,7 +204,7 @@ public class VentanaPrincipal {
 		
 		
 		//Un elemento que ocupe todo el espacio a la derecha:
-		// TODO: Insertar un botón e implementar mi herramienta.
+		// TODO: Insertar un botÃ³n e implementar mi herramienta.
 
 		// Herramienta de deshacer
 		botonDeshacer = new JButton(cargarIconoBoton("Imagenes/deshacer.png")); // Icon made by
@@ -225,7 +226,7 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonRehacer, settings);
 
-		// TODO: Insertar un botÃ³n e implementar mi herramienta.
+		// TODO: Insertar un botÃƒÂ³n e implementar mi herramienta.
 		botonSave = new JButton(cargarIconoBoton("imagenes/guardar.png"));
 		settings = new GridBagConstraints();
 		settings.gridx = 8;
@@ -233,11 +234,17 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonSave, settings);
 
-
+		botonCargarImagen = new JButton(cargarIconoBoton("imagenes/loadImageIcon.png"));
+		settings = new GridBagConstraints();
+		settings.gridx = 9;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(botonCargarImagen, settings);
+		
 		// Un elemento que ocupe todo el espacio a la derecha:
 		JPanel panelEspacioDerecha = new JPanel();
 		settings = new GridBagConstraints();
-		settings.gridx = 9; /*** OJO ***/
+		settings.gridx = 10; /*** OJO ***/
 		settings.gridy = 0;
 		settings.weightx = 1;
 		panelSuperior.add(panelEspacioDerecha, settings);
@@ -269,11 +276,11 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que inicializa todos los listeners del programa.
+	 * MÃƒÂ©todo que inicializa todos los listeners del programa.
 	 */
 	public void inicializarListeners() {
 
-		// Lístener de carga de VentanaPrincipal. Cuando se carga la pantalla es cuando
+		// LÃ­stener de carga de VentanaPrincipal. Cuando se carga la pantalla es cuando
 
 		// se puede inicializar el canvas.
 		ventana.addWindowListener(new WindowAdapter() {
@@ -291,18 +298,11 @@ public class VentanaPrincipal {
 		});
 
 		/**
-		 * Cada nueva herramienta que aÃ±adas, tendrÃ¡ un nuevo lÃ­stener:
+		 * Cada nueva herramienta que aÃƒÂ±adas, tendrÃƒÂ¡ un nuevo lÃƒÂ­stener:
 		 */
 		botonBoligrafo.addActionListener(anadirListenerHerramienta(BOLIGRAFO));
 		botonGoma.addActionListener(anadirListenerHerramienta(GOMA));
-		//TODO: AÃ±adir nuevos listeners para las herramientas:
-		
-		
 		botonClonar.addActionListener(anadirListenerHerramienta(CLONAR));
-
-		// TODO: Añadir nuevos listeners para las herramientas:
-
-		// Jose Carlos
 
 		/**
 		 * 
@@ -333,20 +333,16 @@ public class VentanaPrincipal {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				
 				canvas = canvasPosterior;
 				canvasPosterior = new BufferedImage(panelInferior.getWidth(), panelInferior.getHeight(), BufferedImage.TYPE_INT_ARGB);
 				lienzo.setIcon(new ImageIcon(canvasPosterior));
-				
 				lienzo.repaint();
-				
-				
 			}
 		});
 
 		// Joaquin
 
-		// TODO: AÃ±adir nuevos listeners para las herramientas:
+		// TODO: AÃƒÂ±adir nuevos listeners para las herramientas:
 		botonSave.addActionListener(new ActionListener() {
 
 			@Override
@@ -356,6 +352,14 @@ public class VentanaPrincipal {
 
 		});
 
+		//Boton cargarImagen
+		botonCargarImagen.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cargarImagen();
+			}
+		});
 
 		lienzo.addMouseMotionListener(new MouseMotionAdapter() {
 
@@ -390,11 +394,16 @@ public class VentanaPrincipal {
 					if (herramientaActual==CLONAR && SwingUtilities.isRightMouseButton(e))
 					{
 					//Actualiza referencia
-						xRef = e.getX();
-						yRef = e.getY();
-						offsetX = 0;
-						offsetY= 0;
+						xRef = e.getX()-tamanioClonar/2;
+						yRef = e.getY()-tamanioClonar/2;
 					}
+				}
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (herramientaActual==CLONAR)
+				{
+					empiezaClonar= false;
 				}
 			}
 		});
@@ -409,7 +418,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que Borra el canvas para pintarlo completamente en Blanco. El nuevo
+	 * MÃƒÂ©todo que Borra el canvas para pintarlo completamente en Blanco. El nuevo
 	 * canvas se adapta al tamanio del lienzo.
 	 */
 	public void actualizarCanvasVacio() {
@@ -423,13 +432,13 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que nos devuelve un icono para la barra de herramientas superior.
-	 * NOTA: Sería conveniente colocar una imagen con fondo transparente y que sea
+	 * MÃ©todo que nos devuelve un icono para la barra de herramientas superior.
+	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que sea
 	 * cuadrada, para no estropear la interfaz.
 	 * 
 	 * @param rutaImagen:
 	 *            La ruta de la imagen.
-	 * @return El ImageIcon que se utilizará en un botón.
+	 * @return El ImageIcon que se utilizarÃ¡ en un botÃ³n.
 	 */
 	public ImageIcon cargarIconoBoton(String rutaImagen) {
 		BufferedImage bufferAuxiliar = null;
@@ -442,8 +451,8 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que devuelve un actionListener que cambia la herramienta Actual a la
-	 * que se pasa por parámetros
+	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a la
+	 * que se pasa por parÃ¡metros
 	 * 
 	 * @param herramienta
 	 * @return Un action listener que cambia la herramienta actual. Se puede
@@ -460,7 +469,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Método que realiza todas las llamadas necesarias para inicializar la ventana
+	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la ventana
 	 * correctamente.
 	 */
 	public void inicializar() {
@@ -471,13 +480,13 @@ public class VentanaPrincipal {
 
 	/*****************************************
 	 *****************************************
-	 * AQUÃ� VAN LOS MÃ‰TODOS DE LOS LISTENERS:
+	 * AQUÃƒï¿½ VAN LOS MÃƒâ€°TODOS DE LOS LISTENERS:
 	 *****************************************
 	 *****************************************/
 	
 	
 	/**
-	 * Pinta la línea del bolígrafo al arrastrarlo
+	 * Pinta la lÃ­nea del bolÃ­grafo al arrastrarlo
 	 * 
 	 * @param e
 	 */
@@ -499,7 +508,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Borra donde esté el ratón.
+	 * Borra donde estÃ© el ratÃ³n.
 	 * @param e
 	 */
 	private void borraGoma(MouseEvent e) {
@@ -510,7 +519,7 @@ public class VentanaPrincipal {
 	}
 	
 	/**
-	 *  Botón clonar
+	 *  BotÃ³n clonar
 	 * @param e
 	 */
 	private void clonar(MouseEvent e)
@@ -518,40 +527,31 @@ public class VentanaPrincipal {
 		if (SwingUtilities.isLeftMouseButton(e))
 		{
 			//Si la herramienta tiene referencia pinta nada
-			if ((xRef!=-1) &&(yRef!=-1))
+			if (!empiezaClonar)
 			{
-;				
-			if (lastX==0&&lastY==0)
-			{
-				lastX = e.getX();
-				lastY = e.getY();
+				lastX =e.getX();
+				lastY=e.getY();
+				offsetX =0;
+				offsetY =0;
+				empiezaClonar=true;
 			}
-
+			else
+			{
+				offsetX = lastX-e.getX();
+				offsetY = lastY-e.getY();
+			}
 				System.out.println("clonar");
 				Graphics graficos = canvas.getGraphics();
-				graficos.copyArea(xRef, yRef,100, 100,(e.getX()-xRef)-50, (e.getY()-yRef)-50);
+				graficos.copyArea(xRef-offsetX, yRef-offsetY, 100, 100, (e.getX()-(xRef-offsetX))-50, (e.getY()-(yRef-offsetY))-50);
 				graficos.dispose();
-
-					offsetX = e.getX()-lastX;
-					System.out.println("offsetX: " + offsetX);
-					offsetY = e.getY()-lastY;
-					System.out.println("offsetY: " + offsetY);
-
-				lastX=e.getX();
-				System.out.println("last X:" +lastX);
-				lastY=e.getY();
-				System.out.println("last Y:" +lastY);
-				
-				xRef += offsetX;
-				yRef += offsetY;
-			}
+//			}
 		}
 	}
 	/*
 	 * Este metodo permite guardar el contenido del canvas a un archivo Para ello
-	 * abrirá un JfileChooser en el que el usuario elegirá donde desea guardar el
-	 * archivo y su nombre Si la ruta no tiene la extensión jpg png o gif se le
-	 * añadirá al final .png
+	 * abrirÃ¡ un JfileChooser en el que el usuario elegirÃ¡ donde desea guardar el
+	 * archivo y su nombre Si la ruta no tiene la extensiÃ³n jpg png o gif se le
+	 * aÃ±adirÃ¡ al final .png
 	 * 
 	 * @author Joaquin Alonso Perianez Grupo 2
 	 */
@@ -582,6 +582,33 @@ public class VentanaPrincipal {
 		} catch (Exception ex) {// por alguna excepcion salta un mensaje de error
 			JOptionPane.showMessageDialog(ventana, "Error al guardar el archivo!", "Oops! Error",
 					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	protected void cargarImagen()
+	{
+		JFileChooser explorador = new JFileChooser(rutaIncial);
+		explorador.setSelectedFile(new File(rutaIncial));
+		explorador.setDialogTitle("Cargar una imagen...");
+		explorador.setFileFilter(new FileNameExtensionFilter("JPG, PNG & GIF", "jpg", "png", "gif"));
+		int fileSelected= explorador.showOpenDialog(ventana);
+		if (fileSelected == JFileChooser.APPROVE_OPTION)
+		{
+			try {
+				File imageFile = explorador.getSelectedFile().getAbsoluteFile();
+				BufferedImage image= ImageIO.read(imageFile);
+				Image resize = image.getScaledInstance(lienzo.getWidth(), lienzo.getHeight(), Image.SCALE_SMOOTH);
+				
+				//canvas = image;
+				
+				Graphics graficos = canvas.getGraphics();
+			//	graficos.dra
+				graficos.drawImage(resize, 0, 0, null);
+				graficos.dispose();
+			//	lienzo.setIcon(new ImageIcon(canvas));
+				lienzo.repaint();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
