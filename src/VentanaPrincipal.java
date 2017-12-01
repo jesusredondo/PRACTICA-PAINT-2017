@@ -63,7 +63,9 @@ public class VentanaPrincipal {
 	JPanel panelSuperior;
 	JPanel panelInferior;
 
+
 	// Variables para dibujo
+
 	JLabel lienzo;
 	BufferedImage canvas;
 
@@ -223,9 +225,11 @@ public class VentanaPrincipal {
 		settings.weightx = 1;
 		panelSuperior.add(panelEspacioDerecha, settings);
 
-		// ***************************
-		// EL LIENZO DONDE PINTAMOS.
-		// ***************************
+		
+		
+		//***************************
+		//EL LIENZO DONDE PINTAMOS. 
+		//***************************	
 		panelInferior = new JPanel();
 		panelInferior.setBorder(BorderFactory.createLineBorder(Color.RED));
 		panelInferior.setLayout(new GridBagLayout());
@@ -235,7 +239,7 @@ public class VentanaPrincipal {
 		settings.weightx = 1;
 		settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
-		ventana.add(panelInferior, settings);
+		ventana.add(panelInferior, settings);		
 
 		lienzo = new JLabel();
 		lienzo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -244,6 +248,7 @@ public class VentanaPrincipal {
 		settings.gridx = 0;
 		settings.gridy = 0;
 		settings.fill = GridBagConstraints.BOTH;
+ 
 		panelInferior.add(lienzo, settings);
 		ventana.repaint();
 
@@ -335,8 +340,8 @@ public class VentanaPrincipal {
 					default:
 						break;
 				}				
-				lienzo.repaint();
-			}
+			  lienzo.repaint();
+			  }
 		});
 		
 		lienzo.addMouseListener(new MouseAdapter()
@@ -376,6 +381,7 @@ public class VentanaPrincipal {
 	 * MÃ©todo que Borra el canvas para pintarlo completamente en Blanco. El nuevo
 	 * canvas se adapta al tamanio del lienzo.
 	 */
+
 	public void actualizarCanvasVacio() {
 		canvas = new BufferedImage(panelInferior.getWidth(), panelInferior.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		lienzo.setIcon(new ImageIcon(canvas));
