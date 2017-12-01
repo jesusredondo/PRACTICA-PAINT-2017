@@ -6,19 +6,17 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileFilter;
+
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -51,8 +49,6 @@ public class VentanaPrincipal {
 	// AÃ‘ADE AQUÃ� TU HERRAMIENTA;
 
 	final static int CLONAR = 2;
-	final static int DESHACER = 3;
-	final static int REHACER = 4;
 	final static int GUARDAR = 5;
 	final static int CARGAR = 6;
 
@@ -80,8 +76,6 @@ public class VentanaPrincipal {
 	JButton botonBoligrafo;
 	JButton botonGoma;
 	JButton botonClonar;
-	JButton botonDeshacer;
-	JButton botonRehacer;
 	JButton botonSave;
 	JButton botonCargarImagen;
 	
@@ -205,30 +199,10 @@ public class VentanaPrincipal {
 		
 
 
-		// Herramienta de deshacer
-		botonDeshacer = new JButton(cargarIconoBoton("Imagenes/deshacer.png")); // Icon made by
-																				// [https://www.flaticon.es/autores/simpleicon]
-																				// from www.flaticon.com
-		settings = new GridBagConstraints();
-		settings.gridx = 6;
-		settings.gridy = 0;
-		settings.insets = new Insets(0, 10, 0, 0);
-		panelSuperior.add(botonDeshacer, settings);
-
-		// Herramienta de rehacer
-		botonRehacer = new JButton(cargarIconoBoton("Imagenes/rehacer.png")); // Icon made by
-																				// [https://www.flaticon.es/autores/simpleicon]
-																				// from www.flaticon.com
-		settings = new GridBagConstraints();
-		settings.gridx = 7;
-		settings.gridy = 0;
-		settings.insets = new Insets(0, 10, 0, 0);
-		panelSuperior.add(botonRehacer, settings);
-
 		//BotÃ³n de guardar imagen
 		botonSave = new JButton(cargarIconoBoton("imagenes/guardar.png"));
 		settings = new GridBagConstraints();
-		settings.gridx = 8;
+		settings.gridx = 6;
 		settings.gridy = 0;
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonSave, settings);
@@ -236,7 +210,7 @@ public class VentanaPrincipal {
 		//BotÃ³n cargar imagen
 		botonCargarImagen = new JButton(cargarIconoBoton("imagenes/loadImageIcon.png"));
 		settings = new GridBagConstraints();
-		settings.gridx = 9;
+		settings.gridx = 7;
 		settings.gridy = 0;
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonCargarImagen, settings);
@@ -244,7 +218,7 @@ public class VentanaPrincipal {
 		// Un elemento que ocupe todo el espacio a la derecha:
 		JPanel panelEspacioDerecha = new JPanel();
 		settings = new GridBagConstraints();
-		settings.gridx = 10; /*** OJO ***/
+		settings.gridx = 8; /*** OJO ***/
 		settings.gridy = 0;
 		settings.weightx = 1;
 		panelSuperior.add(panelEspacioDerecha, settings);
@@ -316,34 +290,8 @@ public class VentanaPrincipal {
 		 * @author ALBERTO REY MORENO - GRUPO 2 
 		 * 
 		 */
-		botonDeshacer.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				// canvas = canvasAnterior;
-				canvasAnterior = new BufferedImage(panelInferior.getWidth(), panelInferior.getHeight(), BufferedImage.TYPE_INT_ARGB);
-				lienzo.setIcon(new ImageIcon(canvasAnterior));
-				//correccion rapida por joaquin
-				//Ahora limpia el canvas
-				//canvas.flush();
-				canvas=canvasAnterior;
-				lienzo.repaint();
-				
-			}
-		});
+
 		
-		botonRehacer.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				canvas = canvasPosterior;
-				canvasPosterior = new BufferedImage(panelInferior.getWidth(), panelInferior.getHeight(), BufferedImage.TYPE_INT_ARGB);
-				lienzo.setIcon(new ImageIcon(canvasPosterior));
-				lienzo.repaint();
-			}
-		});
 
 		// Joaquin
 
@@ -546,8 +494,7 @@ public class VentanaPrincipal {
 			{
 				offsetX = lastX-e.getX();
 				offsetY = lastY-e.getY();
-			}
-				System.out.println("clonar");
+			}			
 				Graphics graficos = canvas.getGraphics();
 				graficos.copyArea(xRef-offsetX, yRef-offsetY, 100, 100, (e.getX()-(xRef-offsetX))-50, (e.getY()-(yRef-offsetY))-50);
 				graficos.dispose();
