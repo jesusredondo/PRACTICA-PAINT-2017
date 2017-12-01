@@ -19,7 +19,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import java.io.IOException;
+
+import java.util.Random;
+
 import java.util.Scanner;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -35,10 +39,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import javax.xml.crypto.dsig.CanonicalizationMethod;
+
+
 public class VentanaPrincipal {
 
 	/**
-
 	 * IMPORTANTE: CADA HERRAMIENTA TENDRÃƒÆ’Ã†â€™ÃƒÂ¯Ã‚Â¿Ã‚Â½ UN CÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œDIGO ASOCIADO
 	 */
 	final static int BOLIGRAFO = 0;
@@ -53,18 +59,18 @@ public class VentanaPrincipal {
 	final static int CLONAR = 2;
 	final static int GUARDAR = 5;
 	final static int CARGAR = 6;
-
+  final static int SPRAY = 4;
 
 	int herramientaActual = -1; // No hay nada por defecto.
 	
 	// La ventana principal, en este caso, guarda todos los componentes:
+
 
 	JFrame ventana;
 
 	// Paneles:
 	JPanel panelSuperior;
 	JPanel panelInferior;
-
 
 	// Variables para dibujo
 	JLabel lienzo;
@@ -78,10 +84,13 @@ public class VentanaPrincipal {
 	JButton botonNuevo;
 	JButton botonBoligrafo;
 	JButton botonGoma;
+
 	JButton botonClonar;
 	JButton botonSave;
 	JButton botonCargarImagen;
 	JButton botonPINCELGEO;
+  JButton spray;
+	JButton blancoNegro;
   
 	//VARIABLES PROPIAS DE CADA GRUPO:
 	//Grupo JesÃƒÂºs:
@@ -115,15 +124,16 @@ public class VentanaPrincipal {
 	int alto = 0;
 
 
+
 	public VentanaPrincipal() {
 		ventana = new JFrame();
-		ventana.setBounds(100, 50, 800, 600);
+		ventana.setBounds(100, 50, 850, 600);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventana.setTitle("Paint grupo 2");
 	}
 
 	/**
-	 * MÃƒÂ©todo que inicializa todos los componentes de la ventana
+	 * MÃ©todo que inicializa todos los componentes de la ventana
 	 */
 	public void inicializarComponentes() {
 
@@ -147,7 +157,8 @@ public class VentanaPrincipal {
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelSuperior, settings);
 
-		// BotÃƒÂ³n nuevo
+
+		// BotÃ³n nuevo
 
 		botonNuevo = new JButton(cargarIconoBoton("Imagenes/nuevo.png"));
 		settings = new GridBagConstraints();
@@ -174,7 +185,9 @@ public class VentanaPrincipal {
 		settings.fill = GridBagConstraints.BOTH;
 		panelSuperior.add(selector2, settings);
 
-		// Herramienta de bolÃƒÂ­grafo
+
+		// Herramienta de bolÃ­grafo
+
 		botonBoligrafo = new JButton(cargarIconoBoton("Imagenes/boligrafo.png"));
 		settings = new GridBagConstraints();
 		settings.gridx = 3;
@@ -191,6 +204,7 @@ public class VentanaPrincipal {
 		panelSuperior.add(botonGoma, settings);
 
 
+
 		/**
 		 * VUESTRAS HERRAMIENTAS AQUÃƒÂ­
 		 */
@@ -203,8 +217,14 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonClonar, settings);
 		
-
-
+    // herramienta spray
+		spray = new JButton(cargarIconoBoton("Imagenes/spray.jpg"));
+    settings = new GridBagConstraints();
+		settings.gridx = 7;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+    panelSuperior.add(spray, settings);
+    
 		//BotÃƒÂ³n de guardar imagen
 		botonSave = new JButton(cargarIconoBoton("imagenes/guardar.png"));
 		settings = new GridBagConstraints();
@@ -229,12 +249,18 @@ public class VentanaPrincipal {
 		settings.insets = new Insets(0, 10, 0, 0);
 		panelSuperior.add(botonPINCELGEO, settings);
     
+    // Herramienta blanco y negro
+		blancoNegro = new JButton(cargarIconoBoton("Imagenes/yin.jpg"));
+		settings = new GridBagConstraints();
+		settings.gridx = 9;
+		settings.gridy = 0;
+		settings.insets = new Insets(0, 10, 0, 0);
+		panelSuperior.add(blancoNegro, settings);
+
 		// Un elemento que ocupe todo el espacio a la derecha:
 		JPanel panelEspacioDerecha = new JPanel();
 		settings = new GridBagConstraints();
-		settings.gridx = 8; /*** OJO ***/
-
-
+		settings.gridx = 10; /*** OJO ***/
 		settings.gridy = 0;
 		settings.weightx = 1;
 		panelSuperior.add(panelEspacioDerecha, settings);
@@ -254,7 +280,6 @@ public class VentanaPrincipal {
 		settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelInferior, settings);
- 
 
 
 		lienzo = new JLabel();
@@ -302,13 +327,20 @@ public class VentanaPrincipal {
 				actualizarCanvasVacio();
 			}
 		});
+    blancoNegro.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				blancoYNegro();
+
+			}
+		});
 
 		/**
-
 		 * Cada nueva herramienta que aÃƒÂ±adas, tendrÃƒÂ¡ un nuevo lÃƒÂ­stener:
 		 */
 		botonBoligrafo.addActionListener(anadirListenerHerramienta(BOLIGRAFO));
 		botonGoma.addActionListener(anadirListenerHerramienta(GOMA));
+    spray.addActionListener(anadirListenerHerramienta(SPRAY));
 		botonClonar.addActionListener(anadirListenerHerramienta(CLONAR));
     botonPINCELGEO.addActionListener(anadirListenerHerramienta(PINCELGEO));
 		// Joaquin
@@ -331,11 +363,13 @@ public class VentanaPrincipal {
 			}
 		});
 
+    posicionPulsada();
 
 		lienzo.addMouseMotionListener(new MouseMotionAdapter() {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
+
 				// Dependiendo de la herramienta...
 				switch (herramientaActual) {
 
@@ -354,7 +388,11 @@ public class VentanaPrincipal {
 					// pintar figura.
 					mouseDraggedPincelGeo(e);
 					break;
-						
+            
+					case SPRAY:
+					pintarSpray(e);
+					break;
+					
 					default:
 						break;
 				}				
@@ -412,10 +450,11 @@ public class VentanaPrincipal {
 			}
 		});
 
+
 	}
 
 	/**
-	 * MÃƒÂ©todo que Borra el canvas para pintarlo completamente en Blanco. El nuevo
+	 * MÃ©todo que Borra el canvas para pintarlo completamente en Blanco. El nuevo
 	 * canvas se adapta al tamanio del lienzo.
 	 */
 
@@ -430,15 +469,16 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃƒÂ©todo que nos devuelve un icono para la barra de herramientas superior.
 
-	 * NOTA: SerÃƒÂ¡ conveniente colocar una imagen con fondo transparente y que sea
+	 * MÃ©todo que nos devuelve un icono para la barra de herramientas superior.
+	 * NOTA: SerÃ­a conveniente colocar una imagen con fondo transparente y que sea
+
 	 * cuadrada, para no estropear la interfaz.
 	 * 
 	 * @param rutaImagen:
 	 *            La ruta de la imagen.
-	 * @return El ImageIcon que se utilizarÃƒÂ¡Ã‚Â¡ en un botÃƒÂ³n.
 
+	 * @return El ImageIcon que se utilizarÃ¡ en un botÃ³n.
 
 	 */
 	public ImageIcon cargarIconoBoton(String rutaImagen) {
@@ -453,8 +493,8 @@ public class VentanaPrincipal {
 
 	/**
 
-	 * MÃƒÂ©todo que devuelve un actionListener que cambia la herramienta Actual a la
-	 * que se pasa por parÃƒÆ’Ã‚Â¡metros
+	 * MÃ©todo que devuelve un actionListener que cambia la herramienta Actual a la
+	 * que se pasa por parÃ¡metros
 
 	 * 
 	 * @param herramienta
@@ -473,7 +513,7 @@ public class VentanaPrincipal {
 
 	/**
 
-	 * MÃƒÂ©todo que realiza todas las llamadas necesarias para inicializar la ventana
+	 * MÃ©todo que realiza todas las llamadas necesarias para inicializar la ventana
 	 * correctamente.
 
 	 */
@@ -485,13 +525,34 @@ public class VentanaPrincipal {
 
 	/*****************************************
 	 *****************************************
-	 * AQUÃƒï¿½ VAN LOS MÃƒâ€°TODOS DE LOS LISTENERS:
+
+	 * AQUÃ� VAN LOS MÃ‰TODOS DE LOS LISTENERS:
+
 	 *****************************************
 	 *****************************************/
 
+	//para saber donde pulsa con el raton
+	private void posicionPulsada() {
+			
+			lienzo.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mousePressed(MouseEvent arg0) {
+
+					xAnt = arg0.getX();
+					yAnt = arg0.getY();
+				}
+				
+				
+			});
+			
+		}
+	
 	
 	
 	/**
+
+	
 	 * Pinta la lÃƒÂ­nea del bolÃƒÂ­grafo al arrastrarlo
 
 	 * 
@@ -505,12 +566,17 @@ public class VentanaPrincipal {
 			yAnt = e.getY();
 		}
 
+
 		Graphics graficos = canvas.getGraphics();
 		graficos.setColor(selector1.getColor());
 		graficos.drawLine(xAnt, yAnt, e.getX(), e.getY());
 		graficos.dispose();
+		
+		lienzo.repaint();
+		
 		xAnt = e.getX();
 		yAnt = e.getY();
+
 	}
 
 
@@ -571,6 +637,7 @@ public class VentanaPrincipal {
 
 	 * @param e
 	 */
+
 	private void borraGoma(MouseEvent e) {
 		Graphics graficos = canvas.getGraphics();
 		selector2.setColor(Color.WHITE);
@@ -578,6 +645,7 @@ public class VentanaPrincipal {
 		graficos.fillOval(e.getX() - (strokeGOMA / 2), e.getY() - (strokeGOMA / 2), strokeGOMA, strokeGOMA);
 		graficos.dispose();
 	}
+
 
 	// Método que genera un poligono a partir del numero de vertices, el ángulo de
 	// barrido y un rectangulo de plantilla.
@@ -666,6 +734,50 @@ public class VentanaPrincipal {
 	/**
 	 * 	MÃƒÂ©todo para cargar imagen desde un fichero. Rescala la imagen selecionada y la pinta sobre el canvas
 	 */
+//pintar en forma de spray
+	private void pintarSpray(MouseEvent e) {
+
+					Graphics graficos = canvas.getGraphics();
+					graficos.setColor(selector1.getColor());
+
+					Random rd = new Random();
+					int n1,n2;
+					
+					for (int i = 0; i < 35; i++) {
+						
+					n1 = rd.nextInt(20);
+					n2 = rd.nextInt(20);
+					
+					xAnt = e.getX()+n1;
+					yAnt = e.getY()+n2;
+
+					graficos.fillOval(xAnt, yAnt, 2, 2);
+					
+					}
+							
+					lienzo.repaint();
+
+		}
+
+
+
+	public void blancoYNegro() {
+		BufferedImage cambiada = new BufferedImage(canvas.getWidth(), canvas.getHeight(),
+				BufferedImage.TYPE_BYTE_BINARY);
+
+		// Cambiamos los colores pixel a pixel
+		for (int i = 0; i < cambiada.getWidth(); i++) {
+			for (int j = 0; j < cambiada.getHeight(); j++) {
+				cambiada.setRGB(i, j, canvas.getRGB(i, j));
+			}
+		}
+		
+		canvas = cambiada;
+		
+		lienzo.setIcon(new ImageIcon(canvas));
+		lienzo.repaint();
+
+	}
 	protected void cargarImagen()
 	{
 		JFileChooser explorador = new JFileChooser(rutaIncial);
@@ -691,4 +803,3 @@ public class VentanaPrincipal {
 		}
 	}
 }
-
